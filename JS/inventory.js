@@ -1,34 +1,29 @@
-const MAX_ITEMS = 6;
+const INVENTORY = "requiem_inventory2026";
 
+function getInventoryArray(){
+    let objs = localStorage.getItem(INVENTORY);
 
-function get_inventory(){
-    let inv_json = localStorage.getItem("requiem_inventory");
-    if(!inv_json){
-        return false;
+    if(!objs){
+        return [];
     }
-    let inv = JSON.stringify(inv_json).split(",");
-    return inv;
+
+    try {
+        return JSON.parse(objs);
+    } catch(e){
+        console.log("[PARSE ERROR] Failed at parsing inv data: "+ e);
+        return [];
+    }
 }
 
-function add_to_inventory(item){
-    let inv = get_inventory();
-    if(inv.length === MAX_ITEMS){
-        return false;
-    }
-    if(inv === false){
-        inv = [];
-    }
-
-    inv.push(item);
-    let json_inv = JSON.stringify(inv);
-
-    localStorage.setItem("requiem_inventory", json_inv);
+function addToInventory(obj){
+    let inv_objects = getInventory();
+    inv_objects.push(obj);
+    localStorage.setItem(INVENTORY, JSON.stringify(inv_objects));
 }
 
-localStorage.clear();
+function removeFromInventory(obj){
+    let inv_objects = getInventory();
+    inv_objects.splice(inv_objects.indexOf(obj), 1);
+    localStorage.setItem(INVENTORY, JSON.stringify(inv_objects));
+}
 
-
-console.log(get_inventory());
-add_to_inventory("HEYA");
-
-console.log(get_inventory());
