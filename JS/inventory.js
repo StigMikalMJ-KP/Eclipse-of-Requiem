@@ -10,19 +10,19 @@ function getInventoryArray(){
     try {
         return JSON.parse(objs);
     } catch(e){
-        console.log("[PARSE ERROR] Failed at parsing inv data: "+ e);
+        console.log("[PARSE ERROR] Failed at parsing inventory data: "+ e);
         return [];
     }
 }
 
 function addToInventory(obj){
-    let inv_objects = getInventory();
+    let inv_objects = getInventoryArray();
     inv_objects.push(obj);
     localStorage.setItem(INVENTORY, JSON.stringify(inv_objects));
 }
 
 function removeFromInventory(obj){
-    let inv_objects = getInventory();
+    let inv_objects = getInventoryArray();
     inv_objects.splice(inv_objects.indexOf(obj), 1);
     localStorage.setItem(INVENTORY, JSON.stringify(inv_objects));
 }
