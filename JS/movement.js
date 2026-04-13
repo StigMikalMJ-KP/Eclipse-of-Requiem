@@ -17,11 +17,11 @@ let mapRect = map.getBoundingClientRect();
 
 
 let enabled_keys = {
-        LEFT: true,
-        UP: true,
-        RIGHT: true,
-        DOWN: true
-    }
+    LEFT: true,
+    UP: true,
+    RIGHT: true,
+    DOWN: true
+}
 
 document.addEventListener("keydown", (e) => {
     const LEFT = ["a", "ArrowLeft"];
@@ -30,6 +30,13 @@ document.addEventListener("keydown", (e) => {
     const DOWN = ["s", "ArrowDown"];
 
     let keyPressed = e.key;
+
+    enabled_keys = {
+        LEFT: true,
+        UP: true,
+        RIGHT: true,
+        DOWN: true
+    }
 
     if(map){
         check_bounds(map);
