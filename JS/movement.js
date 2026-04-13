@@ -16,6 +16,8 @@ document.addEventListener("keydown", (e) => {
     const UP = ["w", "ArrowUp"];
     const RIGHT = ["d", "ArrowRight"];
     const DOWN = ["s", "ArrowDown"];
+    const INTERACT = ["z", "Z"];
+    const DIALOGUE = ["Enter"];
 
     let keyPressed = e.key;
 
@@ -33,6 +35,14 @@ document.addEventListener("keydown", (e) => {
 
     if(DOWN.includes(keyPressed)){
         yPos += SPEED;
+    }
+
+    if(INTERACT.includes(keyPressed)){
+        console.log("Interact key pressed");
+    }
+
+    if(DIALOGUE.includes(keyPressed)){
+        console.log("Dialogue key pressed");
     }
 
 

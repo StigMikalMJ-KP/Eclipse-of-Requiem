@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body{
     background-color: rgb(89, 43, 43);
 }
@@ -13,7 +15,35 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    
+    gap: 24px;
+}
+
+#controls-panel{
+    width: 150px;
+    color: white;
+    background-image: url("../Assets/UI/movement.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    border: 3px solid black;
+    border-radius: 6px;
+    padding: 14px 12px;
+    font-family: "Press Start 2P", monospace;
+    align-self: flex-start;
+    margin-top: -12px;
+    text-shadow: 2px 2px 0 #000;
+}
+
+#controls-panel h2{
+    margin: 0 0 10px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+#controls-panel p{
+    margin: 10px 0;
+    line-height: 1.5;
+    font-size: 10px;
 }
 
 #player{
@@ -21,4 +51,20 @@ body{
     width: 50px;
     position: absolute;
     height: 100px;
+}
+
+#inventory-grid{
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.inventory-slot{
+    width: 140px;
+    height: 140px;
+    background-image: url("../Assets/UI/frame.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
 }
