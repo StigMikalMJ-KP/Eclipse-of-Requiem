@@ -29,13 +29,6 @@ document.addEventListener("keydown", (e) => {
     const RIGHT = ["d", "ArrowRight"];
     const DOWN = ["s", "ArrowDown"];
 
-    enabled_keys = {
-        LEFT: true,
-        UP: true,
-        RIGHT: true,
-        DOWN: true
-    }
-
     let keyPressed = e.key;
 
     if(map){
@@ -59,6 +52,7 @@ document.addEventListener("keydown", (e) => {
     if(DOWN.includes(keyPressed) && enabled_keys["DOWN"]){
         yPos += SPEED;
     }
+
 
     console.log(xPos, yPos);
     player.style.left = xPos + "px";
