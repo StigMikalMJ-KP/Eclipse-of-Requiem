@@ -18,6 +18,15 @@ body{
     gap: 24px;
 }
 
+#left-ui-column{
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-self: flex-start;
+    margin-top: -12px;
+}
+
 #controls-panel{
     width: 150px;
     color: white;
@@ -29,8 +38,6 @@ body{
     border-radius: 6px;
     padding: 14px 12px;
     font-family: "Press Start 2P", monospace;
-    align-self: flex-start;
-    margin-top: -12px;
     text-shadow: 2px 2px 0 #000;
 }
 
@@ -44,6 +51,34 @@ body{
     margin: 10px 0;
     line-height: 1.5;
     font-size: 10px;
+}
+
+#infected-list{
+    width: 100px;
+    color: white;
+    font-family: "Press Start 2P", monospace;
+    text-shadow: 2px 2px 0 #000;
+}
+
+#infected-list h2{
+    margin: 0 0 8px;
+    font-size: 14px;
+}
+
+.infected-bar{
+    width: 100px;
+    height: 400px;
+    position: relative;
+}
+
+#infected-base,
+.infected-layer{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    image-rendering: pixelated;
 }
 
 #player{
