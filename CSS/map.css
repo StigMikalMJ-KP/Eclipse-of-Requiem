@@ -1,6 +1,9 @@
+body{
+    background-color: rgb(89, 43, 43);
+}
 
 #map{
-    width: 85%;
+    width: 80%;
     border: 5px solid black;
     border-radius: 5px;
     opacity: 1;
