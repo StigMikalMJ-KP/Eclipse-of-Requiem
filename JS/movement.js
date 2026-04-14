@@ -10,6 +10,8 @@ if(document.getElementById("map")){
 }
 
 const PLAYER_SPAWN_KEY = "requiem_player_spawn";
+const TRANSITION_FADE_KEY = "requiem_transition_fade";
+const TRANSITION_DURATION_MS = 350;
 const roomHitboxesConfig = window.ROOM_HITBOXES || {};
 
 function getCurrentRoomFileName(){
@@ -23,15 +25,65 @@ function getActiveHitboxes(){
 }
 
 function isTriggerZone(hitbox){
-    return Boolean(hitbox.trigger);
+    return Boolean(hitbox.trigger && typeof hitbox.trigger === "object");
 }
 
-function callTriggerHandler(hitbox){
-    if(typeof window.handleRoomTrigger !== "function"){
+function createFadeOverlay(){
+    const overlay = document.createElement("div");
+    overlay.id = "room-transition-overlay";
+    overlay.style.position = "fixed";
+    overlay.style.inset = "0";
+    overlay.style.backgroundColor = "#000";
+    overlay.style.opacity = "0";
+    overlay.style.pointerEvents = "none";
+    overlay.style.zIndex = "9999";
+    overlay.style.transition = `opacity ${TRANSITION_DURATION_MS}ms ease`;
+    document.body.appendChild(overlay);
+    return overlay;
+}
+
+function fadeInFromBlackIfNeeded(){
+    const shouldFade = sessionStorage.getItem(TRANSITION_FADE_KEY);
+    if(shouldFade !== "1"){
         return;
     }
 
-    window.handleRoomTrigger(hitbox);
+    sessionStorage.removeItem(TRANSITION_FADE_KEY);
+    const overlay = createFadeOverlay();
+    overlay.style.opacity = "1";
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            overlay.style.opacity = "0";
+            setTimeout(() => {
+                overlay.remove();
+            }, TRANSITION_DURATION_MS);
+        });
+    });
+}
+
+function handleTrigger(hitbox){
+    const trigger = hitbox.trigger;
+    if(trigger.type !== "teleport" || !trigger.room){
+        return;
+    }
+
+    if(trigger.spawn && typeof trigger.spawn.x === "number" && typeof trigger.spawn.y === "number"){
+        sessionStorage.setItem(
+            PLAYER_SPAWN_KEY,
+            JSON.stringify({ room: trigger.room, x: trigger.spawn.x, y: trigger.spawn.y })
+        );
+    }
+
+    sessionStorage.setItem(TRANSITION_FADE_KEY, "1");
+    const overlay = createFadeOverlay();
+    requestAnimationFrame(() => {
+        overlay.style.opacity = "1";
+    });
+
+    setTimeout(() => {
+        window.location.href = `./${trigger.room}`;
+    }, TRANSITION_DURATION_MS);
 }
 
 const acceleration = 0.2;
@@ -169,7 +221,7 @@ function checkTriggerZones(){
 
         if(intersects){
             isHandlingTrigger = true;
-            callTriggerHandler(hitbox);
+            handleTrigger(hitbox);
             setTimeout(() => {
                 isHandlingTrigger = false;
             }, 200);
@@ -258,4 +310,5 @@ function clamp(min, value, max){
 
 window.addEventListener("load", () => {
     applySpawnPosition();
+    fadeInFromBlackIfNeeded();
 });
