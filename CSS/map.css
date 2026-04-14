@@ -27,7 +27,8 @@ body{
     margin-top: -12px;
 }
 
-#controls-panel{
+#controls-panel,
+#leave-button{
     width: 150px;
     color: white;
     background-image: url("../Assets/UI/movement.png");
@@ -39,6 +40,10 @@ body{
     padding: 14px 12px;
     font-family: "Press Start 2P", monospace;
     text-shadow: 2px 2px 0 #000;
+}
+
+#leave-button{
+    cursor: pointer;
 }
 
 #controls-panel h2{

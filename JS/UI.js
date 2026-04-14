@@ -21,9 +21,12 @@ const infected_content = `<aside id="infected-list" aria-label="Infected List">
     </div>
 </aside>`;
 
+const leave_button = `<button id="leave-button" aria-label="Leave the game">Quit the game</button>`;
+
 const left_ui_content = `<section id="left-ui-column" aria-label="Left UI">
     ${side_content}
     ${infected_content}
+    ${leave_button}
 </section>`;
 
 const INFECTED_STAGES = [
@@ -102,5 +105,13 @@ function startInfectedTimer(){
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("container").insertAdjacentHTML("beforeend", inv_content);
     document.getElementById("container").insertAdjacentHTML("afterbegin", left_ui_content);
+    const leaveButton = document.getElementById("leave-button");
+
+    if(leaveButton){
+        leaveButton.addEventListener("click", () => {
+            window.location.href = "../index.html";
+        });
+    }
+
     startInfectedTimer();
 })
