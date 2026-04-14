@@ -12,7 +12,7 @@ window.ROOM_HITBOXES = {
             trigger: {
                 type: "teleport",
                 room: "room2.html",
-                spawn: { x: 25, y: 55 }
+                spawn: { x: 25, y: 48 }
             }
         }
     ]
