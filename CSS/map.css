@@ -87,10 +87,15 @@ body{
 }
 
 #player{
-    background-color: black;
-    width: 50px;
+    width: 80px;
     position: absolute;
-    height: 100px;
+    height: 160px;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: contain;
+    image-rendering: pixelated;
+    pointer-events: none;
+    transform-origin: center center;
 }
 
 #inventory-grid{

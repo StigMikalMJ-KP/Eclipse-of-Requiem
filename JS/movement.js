@@ -13,6 +13,51 @@ const PLAYER_SPAWN_KEY = "requiem_player_spawn";
 const TRANSITION_FADE_KEY = "requiem_transition_fade";
 const TRANSITION_DURATION_MS = 350;
 const roomHitboxesConfig = window.ROOM_HITBOXES || {};
+const WALK_FRAME_INTERVAL_MS = 180;
+const MOVEMENT_KEYS = new Set([
+    "KeyA",
+    "ArrowLeft",
+    "KeyD",
+    "ArrowRight",
+    "KeyW",
+    "ArrowUp",
+    "KeyS",
+    "ArrowDown"
+]);
+
+const PLAYER_SPRITES = {
+    front: {
+        idle: "../Assets/Karakter/Front/Base/Front-Breathe.png",
+        walk: [
+            "../Assets/Karakter/Front/Base/Front-Walking-1.png",
+            "../Assets/Karakter/Front/Base/Front-Walking-2.png"
+        ]
+    },
+    back: {
+        idle: "../Assets/Karakter/Back/Base/Back-Base-Breathe.png",
+        walk: [
+            "../Assets/Karakter/Back/Base/Back-Base-Walking-1.png",
+            "../Assets/Karakter/Back/Base/Back-Base-Walking-2.png",
+            "../Assets/Karakter/Back/Base/Back-Base-Walking-3.png",
+            "../Assets/Karakter/Back/Base/Back-Base-Walking-4.png"
+        ]
+    },
+    left: {
+        idle: "../Assets/Karakter/Side/Left/Left-Breathe.png",
+        walk: [
+            "../Assets/Karakter/Side/Left/Left-Base-Walk-1.png"
+        ]
+    },
+    right: {
+        idle: "../Assets/Karakter/Side/Right/Right-Breathe.png",
+        walk: [
+            "../Assets/Karakter/Side/Right/Right-Base-Walk-1.png",
+            "../Assets/Karakter/Side/Right/Right-Base-Walk-2.png",
+            "../Assets/Karakter/Side/Right/Right-Base-Walk-3.png",
+            "../Assets/Karakter/Side/Right/Right-Base-Walk-4.png"
+        ]
+    }
+};
 
 
 
@@ -23,6 +68,10 @@ let speed_x = 5;
 let speed_y = 5;
 let xPos = 500;
 let yPos = 500;
+let playerFacing = "front";
+let walkFrameIndex = 0;
+let lastWalkFrameTime = 0;
+let currentSpritePath = "";
 
 const keys_pressed = {};
 
@@ -41,15 +90,22 @@ let isHandlingTrigger = false;
 window.addEventListener("load", () => {
     applySpawnPosition();
     fadeInFromBlackIfNeeded();
+    updatePlayerSprite(false);
 });
 
 
 document.addEventListener("keydown", (e) => {
+    if(MOVEMENT_KEYS.has(e.code)){
+        e.preventDefault();
+    }
     keys_pressed[e.code] = true;
     handle_input();
 });
 
 document.addEventListener("keyup", (e) => {
+    if(MOVEMENT_KEYS.has(e.code)){
+        e.preventDefault();
+    }
     delete keys_pressed[e.code];
 });
 
@@ -100,6 +156,7 @@ function handle_input(){
         speed_x = clamp(min_speed, speed_x + acceleration, max_speed);
         speed_y = clamp(min_speed, speed_y - acceleration, max_speed);
         const nextX = xPos - speed_x;
+        playerFacing = "left";
         if(!collidesWithHitbox(-speed_x, 0)){
             xPos = nextX;
         }
@@ -109,6 +166,7 @@ function handle_input(){
         speed_x = clamp(min_speed, speed_x + acceleration, max_speed);
         speed_y = clamp(min_speed, speed_y - acceleration, max_speed);
         const nextX = xPos + speed_x;
+        playerFacing = "right";
         if(!collidesWithHitbox(speed_x, 0)){
             xPos = nextX;
         }
@@ -118,6 +176,7 @@ function handle_input(){
         speed_y = clamp(min_speed, speed_y + acceleration, max_speed);
         speed_x = clamp(min_speed, speed_x - acceleration, max_speed);
         const nextY = yPos - speed_y;
+        playerFacing = "back";
         if(!collidesWithHitbox(0, -speed_y)){
             yPos = nextY;
         }
@@ -127,14 +186,61 @@ function handle_input(){
         speed_y = clamp(min_speed, speed_y + acceleration, max_speed);
         speed_x = clamp(min_speed, speed_x - acceleration, max_speed);
         const nextY = yPos + speed_y;
+        playerFacing = "front";
         if(!collidesWithHitbox(0, speed_y)){
             yPos = nextY;
         }
     }
 
+    const isMoving = Boolean(
+        keys_pressed["KeyA"] ||
+        keys_pressed["ArrowLeft"] ||
+        keys_pressed["KeyD"] ||
+        keys_pressed["ArrowRight"] ||
+        keys_pressed["KeyW"] ||
+        keys_pressed["ArrowUp"] ||
+        keys_pressed["KeyS"] ||
+        keys_pressed["ArrowDown"]
+    );
+
     player.style.left = `${xPos}px`;
     player.style.top = `${yPos}px`;
+    updatePlayerSprite(isMoving);
     checkTriggerZones();
+}
+
+function setPlayerSprite(spritePath){
+    if(!spritePath || spritePath === currentSpritePath){
+        return;
+    }
+
+    currentSpritePath = spritePath;
+    player.style.backgroundImage = `url("${spritePath}")`;
+}
+
+function updatePlayerSprite(isMoving){
+    const usesMirroredRight = playerFacing === "left";
+    const spriteFacing = usesMirroredRight ? "right" : playerFacing;
+    const spriteSet = PLAYER_SPRITES[spriteFacing] || PLAYER_SPRITES.front;
+    player.style.transform = usesMirroredRight ? "scaleX(-1)" : "scaleX(1)";
+    if(!isMoving){
+        walkFrameIndex = 0;
+        setPlayerSprite(spriteSet.idle);
+        return;
+    }
+
+    if(spriteSet.walk.length === 0){
+        setPlayerSprite(spriteSet.idle);
+        return;
+    }
+
+    const now = Date.now();
+    if(now - lastWalkFrameTime >= WALK_FRAME_INTERVAL_MS){
+        walkFrameIndex = (walkFrameIndex + 1) % spriteSet.walk.length;
+        lastWalkFrameTime = now;
+    }
+
+    setPlayerSprite(spriteSet.walk[walkFrameIndex]);
 }
 
 function updateMap(){
