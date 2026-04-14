@@ -1,4 +1,5 @@
 const INVENTORY = "requiem_inventory2026";
+const MAP_STATE = "requiem_mapstate2026";
 
 function getInventoryArray(){
     let objs = localStorage.getItem(INVENTORY);
@@ -27,3 +28,22 @@ function removeFromInventory(obj){
     localStorage.setItem(INVENTORY, JSON.stringify(inv_objects));
 }
 
+
+
+let default_state = {
+    "bar": true,
+    "holy-book": true,
+    "keyinhole": false
+};
+
+export function updateMapState(state, bool){
+    default_state[state] = bool;
+}
+
+export function getMapState(state){
+    return default_state[state];
+}
+
+export function getAllMapStates(){
+    return default_state;
+}

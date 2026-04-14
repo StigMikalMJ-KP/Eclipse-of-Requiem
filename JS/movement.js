@@ -14,77 +14,7 @@ const TRANSITION_FADE_KEY = "requiem_transition_fade";
 const TRANSITION_DURATION_MS = 350;
 const roomHitboxesConfig = window.ROOM_HITBOXES || {};
 
-function getCurrentRoomFileName(){
-    const pathParts = window.location.pathname.split("/");
-    return pathParts[pathParts.length - 1];
-}
 
-function getActiveHitboxes(){
-    const roomFileName = getCurrentRoomFileName();
-    return roomHitboxesConfig[roomFileName] || [];
-}
-
-function isTriggerZone(hitbox){
-    return Boolean(hitbox.trigger && typeof hitbox.trigger === "object");
-}
-
-function createFadeOverlay(){
-    const overlay = document.createElement("div");
-    overlay.id = "room-transition-overlay";
-    overlay.style.position = "fixed";
-    overlay.style.inset = "0";
-    overlay.style.backgroundColor = "#000";
-    overlay.style.opacity = "0";
-    overlay.style.pointerEvents = "none";
-    overlay.style.zIndex = "9999";
-    overlay.style.transition = `opacity ${TRANSITION_DURATION_MS}ms ease`;
-    document.body.appendChild(overlay);
-    return overlay;
-}
-
-function fadeInFromBlackIfNeeded(){
-    const shouldFade = sessionStorage.getItem(TRANSITION_FADE_KEY);
-    if(shouldFade !== "1"){
-        return;
-    }
-
-    sessionStorage.removeItem(TRANSITION_FADE_KEY);
-    const overlay = createFadeOverlay();
-    overlay.style.opacity = "1";
-
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            overlay.style.opacity = "0";
-            setTimeout(() => {
-                overlay.remove();
-            }, TRANSITION_DURATION_MS);
-        });
-    });
-}
-
-function handleTrigger(hitbox){
-    const trigger = hitbox.trigger;
-    if(trigger.type !== "teleport" || !trigger.room){
-        return;
-    }
-
-    if(trigger.spawn && typeof trigger.spawn.x === "number" && typeof trigger.spawn.y === "number"){
-        sessionStorage.setItem(
-            PLAYER_SPAWN_KEY,
-            JSON.stringify({ room: trigger.room, x: trigger.spawn.x, y: trigger.spawn.y })
-        );
-    }
-
-    sessionStorage.setItem(TRANSITION_FADE_KEY, "1");
-    const overlay = createFadeOverlay();
-    requestAnimationFrame(() => {
-        overlay.style.opacity = "1";
-    });
-
-    setTimeout(() => {
-        window.location.href = `./${trigger.room}`;
-    }, TRANSITION_DURATION_MS);
-}
 
 const acceleration = 0.2;
 const max_speed = 15;
@@ -106,6 +36,23 @@ let enabled_keys = {
     DOWN: true
 };
 let isHandlingTrigger = false;
+
+
+window.addEventListener("load", () => {
+    applySpawnPosition();
+    fadeInFromBlackIfNeeded();
+});
+
+
+document.addEventListener("keydown", (e) => {
+    keys_pressed[e.code] = true;
+    handle_input();
+});
+
+document.addEventListener("keyup", (e) => {
+    delete keys_pressed[e.code];
+});
+
 
 function applySpawnPosition(){
     if(!map){
@@ -136,14 +83,6 @@ function applySpawnPosition(){
     }
 }
 
-document.addEventListener("keydown", (e) => {
-    keys_pressed[e.code] = true;
-    handle_input();
-});
-
-document.addEventListener("keyup", (e) => {
-    delete keys_pressed[e.code];
-});
 
 function handle_input(){
     enabled_keys = {
@@ -197,6 +136,14 @@ function handle_input(){
     player.style.top = `${yPos}px`;
     checkTriggerZones();
 }
+
+function updateMap(){
+    let overlays = document.querySelectorAll(".room-overlay");
+    for(let i = 0; i < overlays.length; i++){
+        
+    }
+}
+
 
 function checkTriggerZones(){
     if(!map || isHandlingTrigger){
@@ -308,7 +255,74 @@ function clamp(min, value, max){
     return value;
 }
 
-window.addEventListener("load", () => {
-    applySpawnPosition();
-    fadeInFromBlackIfNeeded();
-});
+function getCurrentRoomFileName(){
+    const pathParts = window.location.pathname.split("/");
+    return pathParts[pathParts.length - 1];
+}
+
+function getActiveHitboxes(){
+    const roomFileName = getCurrentRoomFileName();
+    return roomHitboxesConfig[roomFileName] || [];
+}
+
+function isTriggerZone(hitbox){
+    return Boolean(hitbox.trigger && typeof hitbox.trigger === "object");
+}
+
+function createFadeOverlay(){
+    const overlay = document.createElement("div");
+    overlay.id = "room-transition-overlay";
+    overlay.style.position = "fixed";
+    overlay.style.inset = "0";
+    overlay.style.backgroundColor = "#000";
+    overlay.style.opacity = "0";
+    overlay.style.pointerEvents = "none";
+    overlay.style.zIndex = "9999";
+    overlay.style.transition = `opacity ${TRANSITION_DURATION_MS}ms ease`;
+    document.body.appendChild(overlay);
+    return overlay;
+}
+
+function fadeInFromBlackIfNeeded(){
+    const shouldFade = sessionStorage.getItem(TRANSITION_FADE_KEY);
+    if(shouldFade !== "1"){
+        return;
+    }
+
+    sessionStorage.removeItem(TRANSITION_FADE_KEY);
+    const overlay = createFadeOverlay();
+    overlay.style.opacity = "1";
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            overlay.style.opacity = "0";
+            setTimeout(() => {
+                overlay.remove();
+            }, TRANSITION_DURATION_MS);
+        });
+    });
+}
+
+function handleTrigger(hitbox){
+    const trigger = hitbox.trigger;
+    if(trigger.type !== "teleport" || !trigger.room){
+        return;
+    }
+
+    if(trigger.spawn && typeof trigger.spawn.x === "number" && typeof trigger.spawn.y === "number"){
+        sessionStorage.setItem(
+            PLAYER_SPAWN_KEY,
+            JSON.stringify({ room: trigger.room, x: trigger.spawn.x, y: trigger.spawn.y })
+        );
+    }
+
+    sessionStorage.setItem(TRANSITION_FADE_KEY, "1");
+    const overlay = createFadeOverlay();
+    requestAnimationFrame(() => {
+        overlay.style.opacity = "1";
+    });
+
+    setTimeout(() => {
+        window.location.href = `./${trigger.room}`;
+    }, TRANSITION_DURATION_MS);
+}
