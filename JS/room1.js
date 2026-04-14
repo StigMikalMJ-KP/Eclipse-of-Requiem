@@ -1,4 +1,4 @@
-const PLAYER_SPAWN_KEY = "requiem_player_spawn";
+const ROOM1_SPAWN_KEY = "requiem_player_spawn";
 const TRANSITION_DURATION_MS = 350;
 
 window.ROOM_HITBOXES = {
@@ -26,7 +26,7 @@ function createFadeOverlay(){
 
 function transitionToRoom2(){
     sessionStorage.setItem(
-        PLAYER_SPAWN_KEY,
+        ROOM1_SPAWN_KEY,
         JSON.stringify({ room: "room2.html", x: 8, y: 55 })
     );
 
