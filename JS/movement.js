@@ -1,6 +1,8 @@
 let player = document.createElement("div");
 player.id = "player";
+
 document.getElementById("container").appendChild(player);
+
 let map;
 
 if(document.getElementById("map")){
@@ -8,6 +10,8 @@ if(document.getElementById("map")){
 }
 
 const acceleration = 0.2
+const max_speed = 15;
+const min_speed = 5;
 let speed_x = 5;
 let speed_y = 5;
 let xPos = 500;
@@ -15,8 +19,8 @@ let yPos = 500;
 
 const keys_pressed = {};
 
-player.style.left = xPos;
-player.style.top = yPos;
+player.style.left = xPos+"px";
+player.style.top = yPos+"px";
 
 let mapRect = map.getBoundingClientRect();
 
@@ -57,18 +61,26 @@ function handle_input(){
     }
     console.log(enabled_keys);
     if(keys_pressed["KeyA"] || keys_pressed["ArrowLeft"] && enabled_keys["LEFT"] ){
+        speed_x = clamp(min_speed, speed_x+acceleration, max_speed);
+        speed_y = clamp(min_speed, speed_y-acceleration, max_speed);
         xPos -= speed_x;
     }
 
     if(keys_pressed["KeyD"] || keys_pressed["ArrowRight"] && enabled_keys["RIGHT"]){
+        speed_x = clamp(min_speed, speed_x+acceleration, max_speed);
+        speed_y = clamp(min_speed, speed_y-acceleration, max_speed);
         xPos += speed_x;
     }
 
     if(keys_pressed["KeyW"] || keys_pressed["ArrowUp"] && enabled_keys["UP"]){
+        speed_y = clamp(min_speed, speed_y+acceleration, max_speed);
+        speed_x = clamp(min_speed, speed_x-acceleration, max_speed);
         yPos -= speed_y;
     }
 
     if(keys_pressed["KeyS"] || keys_pressed["ArrowDown"] && enabled_keys["DOWN"]){
+        speed_y = clamp(min_speed, speed_y+acceleration, max_speed);
+        speed_x = clamp(min_speed, speed_x-acceleration, max_speed);
         yPos += speed_y;
     }
 
