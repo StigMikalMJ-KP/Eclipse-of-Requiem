@@ -1,36 +1,41 @@
 const GAME_STATE = "requiem_gamestate2026";
 
-/*
-
-
-GJØR IKKE NOE I DET HELE TATT
-
-IKKE FERDIG
-
-
-*/
-
-
-export let game = getGameState();
+let game = getGameState();
 
 if(!game){
     game = {
-        unlockedRooms: [],
+        unlockedRooms: [1, 2],
         currentRoom: 1,
         states: {
             "bar": true,
-            "holy-book": true,
+            "holy-book1": true,
+            "holy-book2": false,
             "keyinhole": false
         },
     }
 }
 
 
-export function updateUnlockedRooms(newRooms){
-    game.unlockedRooms = newRooms;
+document.addEventListener("DOMContentLoaded", loadAssets);
+
+
+function loadAssets(){
+    for(state in game.states){
+        if(!document.getElementById(state)) continue;
+        let assetE = document.getElementById(state)
+        if(game.states[state] == true){
+            assetE.style.display = "inline";
+        } else {
+            assetE.style.display = "none";
+        }
+    }
 }
 
-export function updateCurrentRoom(currentRoom){
+function unlockNewRoom(){
+    game.unlockedRooms.push(game.unlockedRooms[-1]+1);
+}
+
+function updateCurrentRoom(currentRoom){
     game.currentRoom = currentRoom;
 }
 
@@ -44,13 +49,14 @@ function getGameState(){
     let objs = localStorage.getItem(GAME_STATE);
 
     if(!objs){
-        return false;
+        return null;
     }
 
     try {
         return JSON.parse(objs);
     } catch(e){
         console.log("[PARSE ERROR] Failed at parsing game state data: "+ e);
-        return false;
+        return null;
     }
 }
+

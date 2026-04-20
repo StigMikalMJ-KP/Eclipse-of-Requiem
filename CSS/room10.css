@@ -1,0 +1,44 @@
+#room-stage{
+    width: 80%;
+    position: relative;
+    border: 5px solid black;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#room-stage #map,
+#room-stage .room-overlay{
+    width: 100%;
+    display: block;
+}
+
+#room-stage #map{
+    border: none;
+    border-radius: 0;
+}
+
+#room-stage .room-overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.room-overlay{
+    z-index: 2;
+}
+
+#forrest{
+    width: 80%;
+    position: relative;
+    border: 5px solid black;
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    width: 100%;
+    display: block;
+}
