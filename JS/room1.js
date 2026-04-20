@@ -1,3 +1,5 @@
+
+
 window.ROOM_HITBOXES = {
     ...(window.ROOM_HITBOXES || {}),
     "room1.html": [
@@ -17,4 +19,3 @@ window.ROOM_HITBOXES = {
         }
     ]
 };
-
