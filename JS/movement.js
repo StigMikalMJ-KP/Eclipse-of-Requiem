@@ -1,3 +1,5 @@
+import { hitboxes_exp } from "./interactables.js"
+
 let player = document.createElement("div");
 player.id = "player";
 
@@ -67,7 +69,7 @@ const min_speed = 5;
 let speed_x = 5;
 let speed_y = 5;
 let xPos = 500;
-let yPos = 500;
+let yPos = 350;
 let playerFacing = "front";
 let walkFrameIndex = 0;
 let lastWalkFrameTime = 0;
@@ -192,6 +194,7 @@ function handle_input(){
         }
     }
 
+
     const isMoving = Boolean(
         keys_pressed["KeyA"] ||
         keys_pressed["ArrowLeft"] ||
@@ -207,6 +210,33 @@ function handle_input(){
     player.style.top = `${yPos}px`;
     updatePlayerSprite(isMoving);
     checkTriggerZones();
+    checkInteractableHitboxes();
+
+
+
+}
+
+
+function checkInteractableHitboxes(){
+    let hbs = document.querySelectorAll(".hitbox");
+    console.log(hbs)
+
+    for(let hb in hbs){
+        let inside = inside_bounds(hbs[hb]);
+        hbs[hb].style.border = "none";
+    }
+}
+
+function inside_bounds(obj){
+    const plr = player.getBoundingClientRect();
+    const obj_rect = obj.getBoundingClientRect();
+    const margin = 15;
+
+    return plr.left > obj_rect.left && 
+       plr.top > obj_rect.top && 
+       plr.right <= obj_rect.right && 
+       plr.bottom < obj_rect.bottom;
+
 }
 
 function setPlayerSprite(spritePath){
@@ -348,6 +378,8 @@ function check_bounds(obj){
         enabled_keys.DOWN = false;
     }
 }
+
+
 
 function clamp(min, value, max){
     if(value < min){

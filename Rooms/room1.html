@@ -10,18 +10,19 @@
     <script src="../JS/UI.js"></script>
     <script src="../JS/room1.js"></script>
     <script src="../JS/states.js"></script>
+    <script type="module" src="../JS/interactables.js"></script>
 </head>
 <body>
     <main id="container">
         <div id="room-stage">
-            <img id="map" src="../Assets/Map/Room1/pixil-layer-0.png" alt="">
+            <img draggable="false" id="map" src="../Assets/Map/Room1/pixil-layer-0.png" alt="">
             <img id="bar" class="room-overlay" src="../Assets/Map/Room1/bar.png" alt="Bar obstacle">
-            <img id="holy-book1" class="room-overlay" src="../Assets/Map/Room1/book.png" alt="Book">
+            <img id="holy-book1" class="room-overlay interactable" src="../Assets/Map/Room1/book.png" alt="Book">
             <img id="keyinhole" class="room-overlay" src="../Assets/Map/Room1/keyinhole.png" alt="Keyhole">
 
         </div>
     </main>
-    <script src="../JS/movement.js"></script>
+    <script type="module" src="../JS/movement.js"></script>
 </body>
 
 </html>
