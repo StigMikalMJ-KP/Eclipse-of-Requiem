@@ -4,7 +4,7 @@ window.ROOM_HITBOXES = {
     ...(window.ROOM_HITBOXES || {}),
     "room1.html": [
         // Values are percentages of map width/height.
-        { id: "top-cutoff", x: 0, y: 0, width: 100, height: 25 },
+        { id: "top-cutoff", x: 0, y: 0, width: 100, height: 20 },
         {
             id: "teleporter-room2",
             x: 95,
