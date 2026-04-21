@@ -15,6 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     newGameButton.addEventListener("click", () => {
         resetRunData();
-        window.location.href = "./Rooms/room1.html";
+        window.location.href = "./Rooms/room.html";
     });
 });
