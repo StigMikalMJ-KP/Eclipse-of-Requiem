@@ -141,7 +141,13 @@ function applySpawnPosition(){
     }
 }
 
+/*
+    Håndterer keyboard-input.
+    Går med WASD eller arrow-keys
+    Akselerasjon når man går og passer på at spilleren ikke 
+    går utenfor map
 
+*/
 function handle_input(){
     enabled_keys = {
         LEFT: true,
@@ -217,7 +223,53 @@ function handle_input(){
     checkTriggerZones();
 }
 
+//Sjekker om spilleren er nærme kanten til map
+//Er den det, blir tasten til siden deaktivert
+function check_bounds(obj){
+    const plr = player.getBoundingClientRect();
+    const obj_rect = obj.getBoundingClientRect();
+    const margin = 15;
 
+    if(!(plr.left - margin >= obj_rect.left)){
+        enabled_keys.LEFT = false;
+    }
+
+    if(plr.top - margin <= obj_rect.top){
+        enabled_keys.UP = false;
+    }
+
+    if(plr.right + margin >= obj_rect.right){
+        enabled_keys.RIGHT = false;
+    }
+
+    if(plr.bottom + margin >= obj_rect.bottom){
+        enabled_keys.DOWN = false;
+    }
+}
+// CLAMP
+/*
+    Funskjon som "clamper" verdier
+    Tar inn 3 parametere
+    min: int
+    value: int
+    max: int
+
+    Og returerer en int verdi
+
+    Blir brukt der man ikke vil at en verdi skal gå under, eller overstige to bestemte verdier
+
+*/
+function clamp(min, value, max){
+    if(value < min){
+        return min;
+    }
+
+    if(value > max){
+        return max;
+    }
+
+    return value;
+}
 
 function setPlayerSprite(spritePath){
     if(!spritePath || spritePath === currentSpritePath){
@@ -337,41 +389,6 @@ function getHitboxRect(hitbox, mapRect){
     };
 }
 
-function check_bounds(obj){
-    const plr = player.getBoundingClientRect();
-    const obj_rect = obj.getBoundingClientRect();
-    const margin = 15;
-
-    if(!(plr.left - margin >= obj_rect.left)){
-        enabled_keys.LEFT = false;
-    }
-
-    if(plr.top - margin <= obj_rect.top){
-        enabled_keys.UP = false;
-    }
-
-    if(plr.right + margin >= obj_rect.right){
-        enabled_keys.RIGHT = false;
-    }
-
-    if(plr.bottom + margin >= obj_rect.bottom){
-        enabled_keys.DOWN = false;
-    }
-}
-
-
-
-function clamp(min, value, max){
-    if(value < min){
-        return min;
-    }
-
-    if(value > max){
-        return max;
-    }
-
-    return value;
-}
 
 function getCurrentRoomFileName(){
     const pathParts = window.location.pathname.split("/");

@@ -1,8 +1,14 @@
+import { setGameState, getGameState_exp, loadAssets_exp } from "./states.js"
+
 document.addEventListener("DOMContentLoaded", createInteractableHitboxes);
 document.addEventListener("keydown", checkInteractableHitboxes);
 
+const inventorySlots = document.querySelectorAll(".inventory-slot");
 
 const showHitboxes = true;
+let insideHitbox = false;
+let currentHitbox;
+
 const dimensions = {
     width: 10,
     height: 29
@@ -15,12 +21,14 @@ const hitboxes = {
 }
 
 
-
+/*
+/ Funksjon som lager hitboxene til interactables
+/ Tar utgangspunkt i variabelen "hitboxes" som lagrer hva hitboxen tilhører til, og hvor den skal ligge
+*/
 function createInteractableHitboxes(){
     let stage = document.getElementById("room-stage");
     
     for(let hitbox in hitboxes){
-        console.log(hitbox+"-hitbox");
         if(!document.getElementById(hitbox)) continue;
     
         let hitboxE = document.createElement("div");
@@ -39,21 +47,61 @@ function createInteractableHitboxes(){
     }
 }
 
+
+
+
+/*
+
+    Funksjon som sjekker om spilleren er innafor hitbox til interactables
+
+*/
 function checkInteractableHitboxes(){
     let hbs = document.querySelectorAll(".hitbox");
-    console.log(hbs)
+
 
     for(let hb in hbs){
         if(!(hbs[hb] instanceof HTMLElement)) continue;
         let inside = inside_bounds(hbs[hb]);
         if(inside) {
-            hbs[hb].style.border = "none";
+            insideHitbox = true;
             console.log("Is inside bounds!")
+            currentHitbox = hbs[hb].id;
+
+            document.addEventListener("keydown", interactInput);
         } else {
+            if(insideHitbox){
+                document.removeEventListener("keydown", interactInput);
+                insideHitbox = false;
+            }
             console.log("Not inside bounds!")
         }
-            
     }
+}
+
+/*
+    Funksjon som blir knyttet til en 'keydown' event listener. ¨
+    Blir aktivert når spilleren er innenfor en interactable hitbox
+    Og sjekker om spilleren trykker på interact input. Equipper i inventory
+*/
+function interactInput(e){
+    if(e.code != "KeyZ") return;
+    console.log("Current hitbox: ", currentHitbox);
+    let interacted = currentHitbox.substring(0, currentHitbox.length - 7);
+    
+    for(let i = 0; i < inventorySlots.length; i++){
+        let itemSlot = document.createElement("img");
+        itemSlot.id = interacted+"-inv";
+        itemSlot.src = "../Assets/ITEMS/"+interacted+".png";
+        inventorySlots[i].appendChild(itemSlot);
+        break;
+    }
+
+    let gameState = getGameState_exp();
+    console.log("Interacted with:",interacted)
+    gameState.states[interacted] = !gameState.states[interacted];
+    setGameState(gameState);
+    loadAssets_exp();
+
 }
 
 function inside_bounds(obj){

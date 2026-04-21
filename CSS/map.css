@@ -107,6 +107,9 @@ body{
 }
 
 .inventory-slot{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 140px;
     height: 140px;
     background-image: url("../Assets/UI/frame.png");
