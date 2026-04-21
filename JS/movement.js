@@ -1,5 +1,3 @@
-import { hitboxes_exp } from "./interactables.js"
-
 let player = document.createElement("div");
 player.id = "player";
 
@@ -210,34 +208,9 @@ function handle_input(){
     player.style.top = `${yPos}px`;
     updatePlayerSprite(isMoving);
     checkTriggerZones();
-    checkInteractableHitboxes();
-
-
-
 }
 
 
-function checkInteractableHitboxes(){
-    let hbs = document.querySelectorAll(".hitbox");
-    console.log(hbs)
-
-    for(let hb in hbs){
-        let inside = inside_bounds(hbs[hb]);
-        hbs[hb].style.border = "none";
-    }
-}
-
-function inside_bounds(obj){
-    const plr = player.getBoundingClientRect();
-    const obj_rect = obj.getBoundingClientRect();
-    const margin = 15;
-
-    return plr.left > obj_rect.left && 
-       plr.top > obj_rect.top && 
-       plr.right <= obj_rect.right && 
-       plr.bottom < obj_rect.bottom;
-
-}
 
 function setPlayerSprite(spritePath){
     if(!spritePath || spritePath === currentSpritePath){
