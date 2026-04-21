@@ -42,3 +42,164 @@
     width: 100%;
     display: block;
 }
+
+/* Mirror overlay styling */
+#mirror-overlay {
+    z-index: 50;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#mirror-overlay.mirror-visible {
+    opacity: 1;
+}
+
+#mirror-overlay.mirror-hidden {
+    opacity: 0;
+}
+
+/* Mirror reflection sprite (separate from real player) */
+#mirror-reflection {
+    position: absolute;
+    pointer-events: none;
+    image-rendering: pixelated;
+    opacity: 0;
+    z-index: 49; /* behind the mirror overlay frame/glass */
+    transform-origin: center bottom;
+    filter: saturate(0.9) contrast(1.05) brightness(0.95);
+    transition: opacity 120ms linear;
+    overflow: visible; /* allow inspect avatars to move freely */
+}
+
+#mirror-reflection.mirror-reflection-visible {
+    opacity: 0.6;
+}
+
+#mirror-reflection.mirror-reflection-hidden {
+    opacity: 0;
+}
+
+.mirror-reflection-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: contain;
+    image-rendering: pixelated;
+    opacity: 0;
+    transition: opacity 220ms ease;
+    transform-origin: center bottom;
+}
+
+#mirror-avatar-front {
+    position: absolute;
+    width: 90px;
+    height: 180px;
+    left: 0;
+    top: 0;
+    transform: none;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: contain;
+    image-rendering: pixelated;
+    opacity: 0.85;
+    filter: saturate(0.95) contrast(1.05) brightness(1.0);
+    transform-origin: center bottom;
+    transition: opacity 120ms linear;
+}
+
+#mirror-avatar-back {
+    position: absolute;
+    pointer-events: none;
+    width: 90px;
+    height: 180px;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: contain;
+    image-rendering: pixelated;
+    opacity: 0.9;
+    z-index: 999; /* above everything */
+    transform-origin: center bottom;
+    filter: saturate(0.95) contrast(1.05) brightness(1.0);
+    display: none;
+    left: 0;
+    top: 0;
+}
+
+.mirror-inspect-prompt {
+    position: absolute;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%);
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.65);
+    border: 2px solid rgba(255, 255, 255, 0.45);
+    color: #fff;
+    font-family: "Press Start 2P", monospace;
+    font-size: 10px;
+    line-height: 1.4;
+    text-shadow: 2px 2px 0 #000;
+    z-index: 60;
+    opacity: 0;
+    transition: opacity 140ms ease;
+    pointer-events: none;
+}
+
+.mirror-inspect-prompt.mirror-inspect-prompt-visible {
+    opacity: 1;
+}
+
+.mirror-inspect-prompt.mirror-inspect-prompt-hidden {
+    opacity: 0;
+}
+
+/* Teleport zone visual indicators */
+.teleport-zone {
+    position: absolute;
+    border: 2px solid #00ff00;
+    background-color: rgba(0, 255, 0, 0.1);
+    pointer-events: none;
+    z-index: 5;
+    animation: teleport-pulse 2s ease-in-out infinite;
+}
+
+@keyframes teleport-pulse {
+    0% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+}
+
+/* Mirror zone visual indicators */
+.mirror-zone {
+    position: absolute;
+    border: 2px solid #0088ff;
+    background-color: rgba(0, 136, 255, 0.1);
+    pointer-events: none;
+    z-index: 5;
+    animation: mirror-glow 2s ease-in-out infinite;
+}
+
+@keyframes mirror-glow {
+    0% {
+        opacity: 0.2;
+        box-shadow: 0 0 5px rgba(0, 136, 255, 0.3);
+    }
+    50% {
+        opacity: 0.5;
+        box-shadow: 0 0 15px rgba(0, 136, 255, 0.6);
+    }
+    100% {
+        opacity: 0.2;
+        box-shadow: 0 0 5px rgba(0, 136, 255, 0.3);
+    }
+}
