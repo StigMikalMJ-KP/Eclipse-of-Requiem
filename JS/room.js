@@ -23,7 +23,13 @@ window.ROOM_HITBOXES = {
 window.addEventListener("load", () => {
     // Add your starting dialogue here
     startDialogue([
-        "Welcome to Eclipse of Requiem...",
-        "Your journey begins now."
+        "Welcome to Eclipse of Requiem",
+        "To Move around Use either WASD\nor the Arrow Keys.",
+        "Interact with objects by moving,close to them and pressing the Z key.",
+        "Objects you can interact with will be the ones that seem out of place",
+        "Your mission is to escape the mansion and find the vaccine before you succumb to the infection.",
+        "Your controls are on your top left",
+        "More information can be found in the library in the next room" 
+
     ]);
 });

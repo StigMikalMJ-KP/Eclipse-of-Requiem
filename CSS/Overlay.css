@@ -87,13 +87,18 @@
     gap: 20px;
     text-align: center;
     padding-top: 200px;
+    max-width: 100%;
+    width: 100%;
+    overflow: hidden;
 }
 
 #dialogue-text {
     margin: 0;
     line-height: 1.8;
     min-height: 3em;
-    word-wrap: break-word;
+    font-size: 20px;
+    max-width: 600px;
+    margin-left: 280px;
 }
 
 .dialogue-indicator {
