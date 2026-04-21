@@ -437,3 +437,7 @@ function handleTrigger(hitbox){
         window.location.href = `./${trigger.room}`;
     }, TRANSITION_DURATION_MS);
 }
+
+  if(typeof getDialogueState === "function" && getDialogueState()){
+        return;
+    }
