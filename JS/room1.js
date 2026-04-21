@@ -19,15 +19,18 @@ window.ROOM_HITBOXES = {
 };
 
 window.addEventListener("load", () => {
-    // Add your starting dialogue here
-    startDialogue([
-        "Welcome to Eclipse of Requiem",
-        "To Move around Use either WASD\nor the Arrow Keys.",
-        "Interact with objects by moving,close to them and pressing the Z key.",
-        "Objects you can interact with will be the ones that seem out of place",
-        "Your mission is to escape the mansion and find the vaccine before you succumb to the infection.",
-        "Your controls are on your top left",
-        "More information can be found in the library in the next room" 
+    // Only show dialogue once per game
+    const ROOM1_DIALOGUE_KEY = "requiem_room1_dialogue_shown";
+    
+    if(!localStorage.getItem(ROOM1_DIALOGUE_KEY)){
+        startDialogue([
+            "So this must be the library. It seems like the previous owner was a scholar of some sort.",
+            "There is a locked door over there.",
+            "I wonder if I can find a key to open it somehow.",
+            "I better start looking for clues."
+          
 
-    ]);
+        ]);
+        localStorage.setItem(ROOM1_DIALOGUE_KEY, "true");
+    }
 });
