@@ -61,20 +61,20 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 90%;
-    max-width: 1000px;
+    width: 95%;
+    max-width: 1200px;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center bottom;
     border: none;
     border-radius: 0;
-    padding: 80px 100px;
+    padding: 120px 150px;
     color: white;
     font-family: "Press Start 2P", monospace;
-    font-size: 20px;
+    font-size: 18px;
     z-index: 1000;
     margin-bottom: 0;
-    min-height: 250px;
+    min-height: 350px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -86,6 +86,7 @@
     flex-direction: column;
     gap: 20px;
     text-align: center;
+    padding-top: 200px;
 }
 
 #dialogue-text {
