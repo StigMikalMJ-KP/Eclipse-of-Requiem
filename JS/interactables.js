@@ -18,8 +18,11 @@ const hitboxes = {
 
 function createInteractableHitboxes(){
     let stage = document.getElementById("room-stage");
- 
+    
     for(let hitbox in hitboxes){
+        console.log(hitbox+"-hitbox");
+        if(!document.getElementById(hitbox)) continue;
+    
         let hitboxE = document.createElement("div");
         hitboxE.style.position = "absolute";
         hitboxE.style.left = hitboxes[hitbox].x + "%";
