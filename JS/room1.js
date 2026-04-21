@@ -23,14 +23,14 @@ window.addEventListener("load", () => {
     const ROOM1_DIALOGUE_KEY = "requiem_room1_dialogue_shown";
     
     if(!localStorage.getItem(ROOM1_DIALOGUE_KEY)){
+        // Added "character" here to trigger the portrait (hode.png)
         startDialogue([
             "So this must be the library. It seems like the previous owner was a scholar of some sort.",
             "There is a locked door over there.",
             "I wonder if I can find a key to open it somehow.",
             "I better start looking for clues."
-          
+        ], "character"); 
 
-        ]);
         localStorage.setItem(ROOM1_DIALOGUE_KEY, "true");
     }
 });

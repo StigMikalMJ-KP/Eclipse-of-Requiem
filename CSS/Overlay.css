@@ -108,6 +108,11 @@
     align-self: center;
 }
 
+.game-mode #dialogue-text {
+    margin-left: 0 !important;
+    max-width: 100% !important;
+}
+
 @keyframes blink {
     0%, 49% {
         opacity: 1;
