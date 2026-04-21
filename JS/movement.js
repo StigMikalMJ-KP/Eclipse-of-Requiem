@@ -110,6 +110,8 @@ document.addEventListener("keyup", (e) => {
 });
 
 
+
+
 function applySpawnPosition(){
     if(!map){
         return;
@@ -147,6 +149,11 @@ function handle_input(){
         RIGHT: true,
         DOWN: true
     };
+
+    if(typeof getDialogueState === "function" && getDialogueState()){
+        return;
+    }
+
 
     if(map){
         check_bounds(map);
@@ -438,6 +445,3 @@ function handleTrigger(hitbox){
     }, TRANSITION_DURATION_MS);
 }
 
-  if(typeof getDialogueState === "function" && getDialogueState()){
-        return;
-    }
