@@ -67,7 +67,7 @@ const min_speed = 5;
 let speed_x = 5;
 let speed_y = 5;
 let xPos = 500;
-let yPos = 500;
+let yPos = 350;
 let playerFacing = "front";
 let walkFrameIndex = 0;
 let lastWalkFrameTime = 0;
@@ -110,6 +110,8 @@ document.addEventListener("keyup", (e) => {
 });
 
 
+
+
 function applySpawnPosition(){
     if(!map){
         return;
@@ -147,6 +149,11 @@ function handle_input(){
         RIGHT: true,
         DOWN: true
     };
+
+    if(typeof getDialogueState === "function" && getDialogueState()){
+        return;
+    }
+
 
     if(map){
         check_bounds(map);
@@ -192,6 +199,7 @@ function handle_input(){
         }
     }
 
+
     const isMoving = Boolean(
         keys_pressed["KeyA"] ||
         keys_pressed["ArrowLeft"] ||
@@ -208,6 +216,8 @@ function handle_input(){
     updatePlayerSprite(isMoving);
     checkTriggerZones();
 }
+
+
 
 function setPlayerSprite(spritePath){
     if(!spritePath || spritePath === currentSpritePath){
@@ -349,6 +359,8 @@ function check_bounds(obj){
     }
 }
 
+
+
 function clamp(min, value, max){
     if(value < min){
         return min;
@@ -432,3 +444,4 @@ function handleTrigger(hitbox){
         window.location.href = `./${trigger.room}`;
     }, TRANSITION_DURATION_MS);
 }
+

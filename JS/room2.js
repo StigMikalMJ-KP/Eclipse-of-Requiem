@@ -2,7 +2,9 @@ window.ROOM_HITBOXES = {
     ...(window.ROOM_HITBOXES || {}),
     "room2.html": [
         // Values are percentages of map width/height.
-        { id: "top-cutoff", x: 0, y: 0, width: 100, height: 25 },
+        { id: "top-cutoff-left", x: 0, y: 0, width: 45, height: 20 },
+        //{ id: "top-cutoff-middle", x: 45, y: 0, width: 10, height: 20 },
+        { id: "top-cutoff-right", x: 60, y: 0, width: 35, height: 20 },
         { id: "statue-blue", x: 0, y: 0, width: 20, height: 35 },
         { id: "statue-red", x: 82, y: 0, width: 20, height: 35 },
         { id: "statue-pink", x: 77, y: 70, width: 20, height: 35 },
@@ -17,8 +19,21 @@ window.ROOM_HITBOXES = {
             trigger: {
                 type: "teleport",
                 room: "room1.html",
-                spawn: { x: 99, y: 48 }
+                spawn: { x: 99, y: 55 }
+            }
+        },
+        {
+            id: "teleporter-room8b",
+            x: 45,
+            y: 0,
+            width: 10,
+            height: 10,
+            trigger: {
+                type: "teleport",
+                room: "room8.html",
+                spawn: { x: 99, y: 55 }
             }
         }
+        
     ]
 };
