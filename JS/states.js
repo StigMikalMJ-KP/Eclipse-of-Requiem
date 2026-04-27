@@ -3,6 +3,13 @@ const GAME_STATE = "requiem_gamestate2026";
 
 document.addEventListener("DOMContentLoaded", loadAssets);
 
+const default_states = {
+    "bar": true,
+    "holy-book1": true,
+    "holy-book2": false,
+    "keyinhole": false
+}
+
 /*
     Laster inn assets med oppdartet tilstand.
     Synlig/ikke synlig
@@ -12,7 +19,7 @@ function loadAssets(){
     for(let state in game){
         if(!document.getElementById(state)) continue;
         let assetE = document.getElementById(state)
-        if(game.states[state] == true){
+        if(game[state] == true){
             assetE.style.display = "inline";
         } else {
             assetE.style.display = "none";
@@ -20,12 +27,16 @@ function loadAssets(){
     }
 }
 
+export function resetStates(){
+    localStorage.setItem(GAME_STATE, JSON.stringify(default_states));
+}
+
 export function loadAssets_exp(){
     let game = getGameState();
-    for(let state in game.states){
+    for(let state in game){
         if(!document.getElementById(state)) continue;
         let assetE = document.getElementById(state)
-        if(game.states[state] == true){
+        if(game[state] == true){
             assetE.style.display = "inline";
         } else {
             assetE.style.display = "none";
@@ -52,10 +63,11 @@ function getGameState(){
     let objs = localStorage.getItem(GAME_STATE);
 
     if(!objs){
-        return null;
+        return default_states;
     }
 
     try {
+        console.log("Returned", objs);
         return JSON.parse(objs);
     } catch(e){
         console.log("[PARSE ERROR] Failed at parsing game state data: "+ e);
@@ -67,18 +79,9 @@ export function getGameState_exp(){
     let objs = localStorage.getItem(GAME_STATE);
 
     if(!objs){
-        return {
-            unlockedRooms: [1, 2],
-            currentRoom: 1,
-            states: {
-                "bar": true,
-                "holy-book1": true,
-                "holy-book2": false,
-                "keyinhole": false
-            },
-        }
+        return default_states;
     }
-
+    
     try {
         console.log("Returned", objs);
         return JSON.parse(objs);

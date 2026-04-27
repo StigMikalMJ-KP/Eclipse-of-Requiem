@@ -1,3 +1,5 @@
+import { resetStates } from "./states.js"
+
 const INVENTORY_KEY = "requiem_inventory2026";
 const INFECTION_START_KEY = "requiem_infection_start_time";
 const ROOM1_DIALOGUE_KEY = "requiem_room1_dialogue_shown";
@@ -14,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if(!newGameButton){
         return;
     }
+
+    resetStates();
 
     newGameButton.addEventListener("click", () => {
         resetRunData();

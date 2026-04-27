@@ -1,11 +1,13 @@
 import { setGameState, getGameState_exp, loadAssets_exp } from "./states.js"
+import { addToInventory, loadInventory } from "./inventory.js"
 
+document.addEventListener("DOMContentLoaded", loadInventory);
 document.addEventListener("DOMContentLoaded", createInteractableHitboxes);
 document.addEventListener("keydown", checkInteractableHitboxes);
 
 const inventorySlots = document.querySelectorAll(".inventory-slot");
 
-const showHitboxes = true;
+const showHitboxes = false;
 let insideHitbox = false;
 let currentHitbox;
 
@@ -16,7 +18,7 @@ const dimensions = {
 
 const hitboxes = {
     "holy-book1": {
-        x: 18, y: 18, 
+        x: 18, y: 18, item_pickup: true
     },
 }
 
@@ -43,11 +45,8 @@ function createInteractableHitboxes(){
             hitboxE.style.border = "1px solid red";
         }
         stage.appendChild(hitboxE);
-        
     }
 }
-
-
 
 
 /*
@@ -57,7 +56,6 @@ function createInteractableHitboxes(){
 */
 function checkInteractableHitboxes(){
     let hbs = document.querySelectorAll(".hitbox");
-
 
     for(let hb in hbs){
         if(!(hbs[hb] instanceof HTMLElement)) continue;
@@ -88,6 +86,12 @@ function interactInput(e){
     console.log("Current hitbox: ", currentHitbox);
     let interacted = currentHitbox.substring(0, currentHitbox.length - 7);
     
+    if(hitboxes[interacted].item_pickup){
+        addToInventory(interacted);
+        loadInventory();
+        delete hitboxes[interacted];
+    }
+
     for(let i = 0; i < inventorySlots.length; i++){
         let itemSlot = document.createElement("img");
         itemSlot.id = interacted+"-inv";
@@ -96,9 +100,12 @@ function interactInput(e){
         break;
     }
 
+
+
     let gameState = getGameState_exp();
     console.log("Interacted with:",interacted)
-    gameState.states[interacted] = !gameState.states[interacted];
+    console.log("New value: ", !gameState[interacted]);
+    gameState[interacted] = !gameState[interacted];
     setGameState(gameState);
     loadAssets_exp();
 
