@@ -110,3 +110,11 @@ document.addEventListener("keydown", (e) => {
         nextDialogueLine();
     }
 });
+
+/**
+ * Get the current dialogue state
+ * @returns {boolean} Whether dialogue is currently active
+ */
+function getDialogueState() {
+    return isDialogueActive;
+}
