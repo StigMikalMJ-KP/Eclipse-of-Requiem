@@ -23,16 +23,27 @@ export function addToInventory(obj){
     localStorage.setItem(INVENTORY, JSON.stringify(inv_objects));
 }
 
-function removeFromInventory(obj){
+export function removeFromInventory(obj){
     let inv_objects = getInventoryArray();
     inv_objects.splice(inv_objects.indexOf(obj), 1);
     localStorage.setItem(INVENTORY, JSON.stringify(inv_objects));
 }
 
+export function isInInventory(obj){
+    let inv = getInventoryArray();
+    for(let i = 0; i < inv.length; i++){
+        if(inv[i] === obj){
+            return true;
+        }
+    }
+    return false;
+}
+
 export function loadInventory(){
     let items = getInventoryArray();
     let slots = document.querySelectorAll(".inventory-slot");
-
+    slots.forEach(slot => slot.innerHTML = "");
+    
     for(let i = 0; i < items.length; i++){
         let itemSlot = document.createElement("img");
         itemSlot.id = items[i]+"-inv";
