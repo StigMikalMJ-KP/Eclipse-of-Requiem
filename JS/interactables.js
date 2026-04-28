@@ -1,6 +1,6 @@
 import { setGameState, getGameState_exp, loadAssets_exp } from "./states.js"
 import { addToInventory, loadInventory, isInInventory, removeFromInventory } from "./inventory.js"
-import { openRoom1Exit } from "./room1.js"
+import { openRoom1Exit, triggerHolyBookDialogue } from "./room1.js"
 
 document.addEventListener("DOMContentLoaded", loadInventory);
 document.addEventListener("DOMContentLoaded", createInteractableHitboxes);
@@ -136,6 +136,11 @@ function interactInput(e){
     if(hitboxes[interacted].item_pickup){
         gameState[interacted] = !gameState[interacted];
         addToInventory(interacted);
+        
+        if(interacted === "holy-book1") {
+            triggerHolyBookDialogue();
+        }
+        
         loadInventory();
         delete hitboxes[interacted];
 

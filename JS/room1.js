@@ -49,6 +49,17 @@ export function openRoom1Exit(){
     hitbox.height = 1;
 }
 
+export function triggerHolyBookDialogue() {
+    startDialogue([
+        "A sacred book...",
+        "It Looks almost Holy.",
+        "This must be important.",
+        "Holy book was added to your inventory."
+    ], "character");
+
+   
+}
+
 window.addEventListener("load", () => {
     // Only show dialogue once per game
     const ROOM1_DIALOGUE_KEY = "requiem_room1_dialogue_shown";
