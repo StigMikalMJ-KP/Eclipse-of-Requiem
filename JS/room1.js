@@ -1,4 +1,6 @@
 import { getGameState_exp, setGameState } from "./states.js";
+import { isInInventory } from "./inventory.js";
+import { startDialogue } from "./dialogue.js";
 
 window.ROOM_HITBOXES = {
     ...(window.ROOM_HITBOXES || {}),
@@ -59,6 +61,8 @@ export function triggerHolyBookDialogue() {
 
    
 }
+
+
 
 window.addEventListener("load", () => {
     // Only show dialogue once per game

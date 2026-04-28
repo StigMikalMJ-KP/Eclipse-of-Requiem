@@ -32,7 +32,7 @@ function initializeDialogueUI() {
  * @param {Array} dialogueLines - Array of strings
  * @param {String} type - Use "character" for portraits, "game" for narrator
  */
-function startDialogue(dialogueLines, type = "game") {
+export function startDialogue(dialogueLines, type = "game") {
     if (!Array.isArray(dialogueLines) || dialogueLines.length === 0) {
         console.warn("Invalid dialogue lines provided");
         return;
@@ -115,6 +115,6 @@ document.addEventListener("keydown", (e) => {
  * Get the current dialogue state
  * @returns {boolean} Whether dialogue is currently active
  */
-function getDialogueState() {
+export function getDialogueState() {
     return isDialogueActive;
 }

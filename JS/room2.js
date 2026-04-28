@@ -1,3 +1,7 @@
+import { getGameState_exp, setGameState } from "./states.js";
+import { isInInventory } from "./inventory.js";
+import { startDialogue } from "./dialogue.js";
+
 window.ROOM_HITBOXES = {
     ...(window.ROOM_HITBOXES || {}),
     "room2.html": [
@@ -37,3 +41,29 @@ window.ROOM_HITBOXES = {
         
     ]
 };
+
+export function triggerPedestalNoDialogue() {
+    startDialogue([
+        "This Pedstal seems to have some sort of indentation on top.",
+        "It looks like something could fit in there.",
+    ], "character");
+}
+
+export function triggerPedestalYesDialogue() {
+    startDialogue([
+        "The book, the symbols match.",
+        "I place the holy book on the pedestal.",
+        "Huh, thats weird, there is a note inside the book",
+        "The pedestal starts to shake, and a hidden compartment opens up.",
+        "Inside, I find a key.",
+        "Key and Weird Note was added to your inventory.",
+    ], "character");
+}
+
+export function triggerPedestalDialogue() {
+    if(isInInventory("holy-book1")) {
+        triggerPedestalYesDialogue();
+    } else {
+        triggerPedestalNoDialogue();
+    }
+}

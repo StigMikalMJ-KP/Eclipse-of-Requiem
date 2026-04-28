@@ -94,6 +94,8 @@ window.addEventListener("load", () => {
 });
 
 
+import { getDialogueState } from "./dialogue.js";
+
 document.addEventListener("keydown", (e) => {
     if(MOVEMENT_KEYS.has(e.code)){
         e.preventDefault();
@@ -156,7 +158,7 @@ function handle_input(){
         DOWN: true
     };
 
-    if(typeof getDialogueState === "function" && getDialogueState()){
+    if(getDialogueState()){
         return;
     }
 

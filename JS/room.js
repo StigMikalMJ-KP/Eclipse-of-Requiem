@@ -1,3 +1,5 @@
+import { startDialogue } from "./dialogue.js";
+
 window.ROOM_HITBOXES = {
     ...(window.ROOM_HITBOXES || {}),
     "room.html": [

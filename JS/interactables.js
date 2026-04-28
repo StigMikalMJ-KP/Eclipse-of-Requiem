@@ -1,6 +1,7 @@
 import { setGameState, getGameState_exp, loadAssets_exp } from "./states.js"
 import { addToInventory, loadInventory, isInInventory, removeFromInventory } from "./inventory.js"
 import { openRoom1Exit, triggerHolyBookDialogue } from "./room1.js"
+import { triggerPedestalDialogue } from "./room2.js"
 
 document.addEventListener("DOMContentLoaded", loadInventory);
 document.addEventListener("DOMContentLoaded", createInteractableHitboxes);
@@ -146,6 +147,11 @@ function interactInput(e){
 
     } else if(isInInventory(hitboxes[interacted].required_item)){
         gameState[interacted] = !gameState[interacted];
+        
+        if(interacted === "holy-book2") {
+            triggerPedestalDialogue();
+        }
+        
         removeFromInventory(hitboxes[interacted].required_item);
         
         if(hitboxes[interacted].switch_item){
@@ -171,6 +177,9 @@ function interactInput(e){
         loadInventory();
 
         delete hitboxes[interacted];
+    } else if(interacted === "holy-book2") {
+        // Show dialogue even if they don't have the required item
+        triggerPedestalDialogue();
     }
 
     
