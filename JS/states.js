@@ -7,7 +7,9 @@ const default_states = {
     "bar": true,
     "holy-book1": true,
     "holy-book2": false,
-    "keyinhole": false
+    "keyinhole": false,
+    "bar": true,
+    "opened-rooms": [1,2]
 }
 
 /*
@@ -83,7 +85,6 @@ export function getGameState_exp(){
     }
     
     try {
-        console.log("Returned", objs);
         return JSON.parse(objs);
     } catch(e){
         console.log("[PARSE ERROR] Failed at parsing game state data: "+ e);

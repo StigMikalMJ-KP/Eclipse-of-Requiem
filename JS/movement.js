@@ -305,13 +305,6 @@ function updatePlayerSprite(isMoving){
     setPlayerSprite(spriteSet.walk[walkFrameIndex]);
 }
 
-function updateMap(){
-    let overlays = document.querySelectorAll(".room-overlay");
-    for(let i = 0; i < overlays.length; i++){
-        
-    }
-}
-
 
 function checkTriggerZones(){
     if(!map || isHandlingTrigger){

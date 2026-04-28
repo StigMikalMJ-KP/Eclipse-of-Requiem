@@ -1,5 +1,6 @@
 import { setGameState, getGameState_exp, loadAssets_exp } from "./states.js"
 import { addToInventory, loadInventory, isInInventory, removeFromInventory } from "./inventory.js"
+import { openRoom1Exit } from "./room1.js"
 
 document.addEventListener("DOMContentLoaded", loadInventory);
 document.addEventListener("DOMContentLoaded", createInteractableHitboxes);
@@ -18,19 +19,29 @@ const dimensions = {
 
 const hitboxes = {
     "holy-book1": {
-        x: 18, y: 18, item_pickup: true, required_item: false, switch_item: false, toggle: false
+        x: 18, y: 18, 
+        item_pickup: true, 
+        required_item: false, 
+        switch_item: false, 
+        toggle: false
     },
 
     "holy-book2": {
-        x: 42, y: 27, item_pickup: false, width: 20, height: 53, required_item: "holy-book1", switch_item: "key", toggle: false
+        x: 42, y: 27, width: 20, height: 53,
+        item_pickup: false, 
+        required_item: "holy-book1", 
+        switch_item: ["key", "scroll_purple"], 
+        toggle: false
     },
 
-    //"keyinhole": {
-    //    x: 51, y: 18, item_pickup: false, required_item: "key", switch_item: false, toggle: "bar", required_item: false
-    //}
+    "keyinhole": {
+        x: 51, y: 18, 
+        item_pickup: false,
+         required_item: "key", 
+         switch_item: false, 
+         toggle: "bar"
+    }
 }
-
-
 
 
 /*
@@ -73,26 +84,39 @@ function createInteractableHitboxes(){
 /*
     Funksjon som sjekker om spilleren er innafor hitbox til interactables
 */
-function checkInteractableHitboxes(){
+
+function checkInteractableHitboxes() {
     let hbs = document.querySelectorAll(".hitbox");
+    let foundInside = false; // Temporary flag
+    let activeHbId = null;
 
-    for(let hb in hbs){
-        if(!(hbs[hb] instanceof HTMLElement)) continue;
-        let inside = inside_bounds(hbs[hb]);
-        if(!inside) {
-            if(insideHitbox){
-                document.removeEventListener("keydown", interactInput);
-                insideHitbox = false;
-            }
-            console.log("Not inside bounds!")
 
-        } else {
-            insideHitbox = true;
-            console.log("Is inside bounds!")
-            currentHitbox = hbs[hb].id;
-
-            document.addEventListener("keydown", interactInput);
+    for (let hb of hbs) {
+        if (inside_bounds(hb)) {
+            foundInside = true;
+            activeHbId = hb.id;
+            break; 
         }
+    }
+ 
+    if (foundInside && !insideHitbox) {
+    
+        insideHitbox = true;
+        currentHitbox = activeHbId;
+        document.addEventListener("keydown", interactInput);
+        console.log("Entered bounds:", currentHitbox);
+    } 
+    else if (!foundInside && insideHitbox) {
+      
+        insideHitbox = false;
+        currentHitbox = null;
+        document.removeEventListener("keydown", interactInput);
+        console.log("Exited all bounds");
+    }
+
+    else if (foundInside && insideHitbox && currentHitbox !== activeHbId) {
+        currentHitbox = activeHbId;
+        console.log("Switched to hitbox:", currentHitbox);
     }
 }
 
@@ -114,17 +138,28 @@ function interactInput(e){
         addToInventory(interacted);
         loadInventory();
         delete hitboxes[interacted];
+
     } else if(isInInventory(hitboxes[interacted].required_item)){
         gameState[interacted] = !gameState[interacted];
         removeFromInventory(hitboxes[interacted].required_item);
-
+        
         if(hitboxes[interacted].switch_item){
-            addToInventory(hitboxes[interacted].switch_item);
+            let items = hitboxes[interacted].switch_item;
+            if(Array.isArray(items)){
+                for(let item in items){
+                    addToInventory(items[item]);
+                }
+            } else if(typeof items === "string") addToInventory(items);
+            
         } else if(hitboxes[interacted].toggle){
             let element = document.getElementById(hitboxes[interacted].toggle);
-            switch(element.style.display){
-                case "inline": element.style.display = "none"; break;
-                case "none": element.style.display = "inline"; break;
+            gameState[element.id] = !gameState[element.id];
+
+            switch(interacted){
+                case "keyinhole":
+                    gameState["opened-rooms"].push(3);
+                    openRoom1Exit();
+                    break;
             }
         }
 
@@ -137,6 +172,7 @@ function interactInput(e){
 
     console.log("New value: ", !gameState[interacted]);
     setGameState(gameState);
+    console.log(getGameState_exp());
     loadAssets_exp();
 }
 

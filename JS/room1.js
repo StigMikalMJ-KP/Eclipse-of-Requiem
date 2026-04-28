@@ -1,10 +1,14 @@
+import { getGameState_exp, setGameState } from "./states.js";
+
 window.ROOM_HITBOXES = {
     ...(window.ROOM_HITBOXES || {}),
     "room1.html": [
         // Values are percentages of map width/height.
-        { id: "top-cutoff", x: 0, y: 0, width: 100, height: 20 },
+        { id: "top-cutoff-left", x: 0, y: 0, width: 38, height: 20 },
+        { id: "top-cutoff-middle", x: 45, y: 0, width: 10, height: 20 },
+        { id: "top-cutoff-right", x: 54, y: 0, width: 40, height: 20 },
         {
-            id: "teleporter-room2",
+            id: "teleporter-room1a",
             x: 95,
             y: 55,
             width: 5,
@@ -14,9 +18,36 @@ window.ROOM_HITBOXES = {
                 room: "room2.html",
                 spawn: { x: 25, y: 48 }
             }
+        },
+        {
+            id: "teleporter-room1b",
+            x: 38,
+            y: 0,
+            width: 16,
+            height: 10,
+            trigger: {
+                type: "teleport",
+                room: "room3.html",
+                spawn: { x: 59, y: 77 }
+            }
         }
     ]
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+    let gameState = getGameState_exp();
+    if(gameState["opened-rooms"] && gameState["opened-rooms"].includes(3)){
+        let hitbox = window.ROOM_HITBOXES["room1.html"].find(hb => hb.id === "top-cutoff-middle");
+        hitbox.width = 1;
+        hitbox.height = 1;
+    }
+})
+
+export function openRoom1Exit(){
+    let hitbox = window.ROOM_HITBOXES["room1.html"].find(hb => hb.id === "top-cutoff-middle");
+    hitbox.width = 1;
+    hitbox.height = 1;
+}
 
 window.addEventListener("load", () => {
     // Only show dialogue once per game
