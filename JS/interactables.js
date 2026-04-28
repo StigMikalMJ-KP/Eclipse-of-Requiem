@@ -41,7 +41,47 @@ const hitboxes = {
          required_item: "key", 
          switch_item: false, 
          toggle: "bar"
-    }
+    }, 
+
+    "lamp": {
+    x: 15,
+    y: 70,
+    item_pickup: false,
+    required_item: false,
+    switch_item: false,
+    toggle: false
+},
+
+    "mirror": {
+    x: 72,
+    y: 0,
+    item_pickup: false,
+    required_item: false,
+    switch_item: false,
+    toggle: false,
+    width: 20,
+    height: 35
+},
+
+    "drawer": {
+    x: 59,
+    y: 70,
+    item_pickup: false,
+    required_item: false,
+    switch_item: false,
+    toggle: false,
+    width: 11,
+    height: 40
+},
+
+    "clock": {
+    x: 40,
+    y: 10,
+    item_pickup: false,
+    required_item: false,
+    switch_item: false,
+    toggle: false
+}
 }
 
 
@@ -145,7 +185,10 @@ function interactInput(e){
         loadInventory();
         delete hitboxes[interacted];
 
-    } else if(isInInventory(hitboxes[interacted].required_item)){
+    } else if(
+    !hitboxes[interacted].required_item ||
+    isInInventory(hitboxes[interacted].required_item)
+    ){
         gameState[interacted] = !gameState[interacted];
         
         if(interacted === "holy-book2") {
