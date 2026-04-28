@@ -167,13 +167,27 @@ function checkInteractableHitboxes() {
     Og sjekker om spilleren trykker på interact input. Equipper i inventory
 */
 function interactInput(e){
+
     if(e.code != "KeyZ") return;
     console.log("Current hitbox: ", currentHitbox);
     let interacted = currentHitbox.substring(0, currentHitbox.length - 7);
+    const isRoom6 = window.location.pathname.includes("room6.html");
+    if (isRoom6) {
+    const isPuzzleObject = ["lamp", "mirror", "drawer", "clock"].includes(interacted);
+
+        if (isPuzzleObject) {
+            window.handleRoom6Puzzle(interacted);
+            return;
+        }
+    }
     let gameState = getGameState_exp();
 
     console.log("Interacted with:",interacted)
 
+    if (typeof window.handleRoom6Puzzle === "function") {
+    window.handleRoom6Puzzle(interacted);
+    }
+    
     if(hitboxes[interacted].item_pickup){
         gameState[interacted] = !gameState[interacted];
         addToInventory(interacted);

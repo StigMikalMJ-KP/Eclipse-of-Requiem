@@ -62,7 +62,7 @@ window.handleRoom6Puzzle = function(interacted) {
     let gameState = getGameState_exp();
 
     // Puzzle already solved
-    if (gameState.states["room6-note"] === true) {
+    if (gameState["room6-note"] === true) {
         return;
     }
 
