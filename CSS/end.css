@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(20, 10, 10);
+    font-family: "Press Start 2P", monospace;
+    color: white;
+}
+
+#end-screen{
+    width: 100%;
+    max-width: 600px;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.end-content{
+    background: rgba(0, 0, 0, 0.6);
+    border: 4px solid #8b0000;
+    padding: 40px 30px;
+    box-shadow: 0 0 40px rgba(139, 0, 0, 0.3);
+}
+
+.title{
+    margin: 0 0 10px;
+    font-size: 20px;
+    color: #cc4444;
+    text-shadow: 2px 2px 0 #000;
+    letter-spacing: 2px;
+}
+
+.subtitle{
+    margin: 0 0 30px;
+    font-size: 28px;
+    color: #ff6666;
+    text-shadow: 0 0 10px rgba(255, 100, 100, 0.5);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse{
+    0%, 100%{
+        opacity: 1;
+    }
+    50%{
+        opacity: 0.7;
+    }
+}
+
+.message-container{
+    margin-bottom: 30px;
+    min-height: 60px;
+}
+
+#end-message{
+    font-size: 10px;
+    line-height: 1.8;
+    color: #aaa;
+    margin: 0;
+}
+
+.stats-container{
+    margin: 30px 0;
+    padding: 20px;
+    border: 2px solid #444;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.stats-container h2{
+    font-size: 12px;
+    margin: 0 0 20px;
+    color: #888;
+}
+
+.stats-container p{
+    font-size: 10px;
+    margin: 10px 0;
+    color: #ccc;
+}
+
+.stats-container span{
+    color: #ff8888;
+}
+
+.credits{
+    margin: 30px 0;
+    font-size: 8px;
+    color: #666;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.buttons button{
+    font-family: inherit;
+    font-size: 10px;
+    color: white;
+    background: #111;
+    border: 3px solid #666;
+    padding: 14px 30px;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 200px;
+}
+
+.buttons button:hover{
+    background: #2a1a1a;
+    border-color: #aa4444;
+}
+
+.buttons button:active{
+    background: #441a1a;
+    transform: translateY(2px);
+}
+
+#restart-btn{
+    border-color: #44aa44;
+}
+
+#restart-btn:hover{
+    border-color: #66cc66;
+}
