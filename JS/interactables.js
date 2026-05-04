@@ -103,6 +103,17 @@ const hitboxes = {
         toggle: false,
         height: 60,
         width: 23
+    },
+
+    "fingertino": {
+        x: 8,
+        y: 57,
+        item_pickup: false,
+        required_item: "finger",
+        switch_item: false,
+        toggle: false,
+        height: 25,
+        width: 12.75
     }
 }
 
