@@ -21,7 +21,7 @@ const dimensions = {
 const hitboxes = {
     "holy-book1": {
         x: 18, y: 18, 
-        item_pickup: true, 
+        item_pickup: "holy-book1", 
         required_item: false, 
         switch_item: false, 
         toggle: false
@@ -44,44 +44,54 @@ const hitboxes = {
     }, 
 
     "lamp": {
-    x: 15,
-    y: 70,
-    item_pickup: false,
-    required_item: false,
-    switch_item: false,
-    toggle: false
-},
+        x: 15,
+        y: 70,
+        item_pickup: false,
+        required_item: false,
+        switch_item: false,
+        toggle: false
+    },
 
     "mirror": {
-    x: 72,
-    y: 0,
-    item_pickup: false,
-    required_item: false,
-    switch_item: false,
-    toggle: false,
-    width: 20,
-    height: 35
-},
+        x: 72,
+        y: 0,
+        item_pickup: false,
+        required_item: false,
+        switch_item: false,
+        toggle: false,
+        width: 20,
+        height: 35
+    },
 
     "drawer": {
-    x: 59,
-    y: 70,
-    item_pickup: false,
-    required_item: false,
-    switch_item: false,
-    toggle: false,
-    width: 11,
-    height: 40
-},
+        x: 59,
+        y: 70,
+        item_pickup: false,
+        required_item: false,
+        switch_item: false,
+        toggle: false,
+        width: 11,
+        height: 40
+    },
 
     "clock": {
-    x: 40,
-    y: 10,
-    item_pickup: false,
-    required_item: false,
-    switch_item: false,
-    toggle: false
-}
+        x: 40,
+        y: 10,
+        item_pickup: false,
+        required_item: false,
+        switch_item: false,
+        toggle: false
+    },
+
+    "chest": {
+        x: 1,
+        y: 24,
+        item_pickup: "scroll_red",
+        required_item: false,
+        switch_item: false,
+        toggle: false
+
+    }
 }
 
 
@@ -176,7 +186,7 @@ function interactInput(e){
 
     if(hitboxes[interacted].item_pickup){
         gameState[interacted] = !gameState[interacted];
-        addToInventory(interacted);
+        addToInventory(hitboxes[interacted].item_pickup);
         
         if(interacted === "holy-book1") {
             triggerHolyBookDialogue();

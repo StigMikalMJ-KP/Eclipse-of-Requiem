@@ -29,7 +29,7 @@ window.ROOM_HITBOXES = {
             height: 10,
             trigger: {
                 type: "teleport",
-                room: "room3.html",
+                room: "room5.html",
                 spawn: { x: 59, y: 77 }
             }
         }
