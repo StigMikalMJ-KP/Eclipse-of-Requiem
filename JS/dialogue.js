@@ -32,6 +32,8 @@ function initializeDialogueUI() {
  * @param {Array} dialogueLines - Array of strings
  * @param {String} type - Use "character" for portraits, "game" for narrator
  */
+
+
 export function startDialogue(dialogueLines, type = "game") {
     if (!Array.isArray(dialogueLines) || dialogueLines.length === 0) {
         console.warn("Invalid dialogue lines provided");

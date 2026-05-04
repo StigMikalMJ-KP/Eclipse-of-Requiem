@@ -83,7 +83,7 @@ const hitboxes = {
         toggle: false
     },
 
-    "chest": {
+    "chest-open": {
         x: 1,
         y: 24,
         item_pickup: "scroll_red",
@@ -193,6 +193,14 @@ function interactInput(e){
     if(e.code != "KeyZ") return;
     console.log("Current hitbox: ", currentHitbox);
     let interacted = currentHitbox.substring(0, currentHitbox.length - 7);
+    
+    let exists = false;
+    for(let hit in hitboxes){
+        if(interacted === hit) exists = true;
+    }
+
+    if(!exists) return;
+
     const isRoom6 = window.location.pathname.includes("room6.html");
     if (isRoom6) {
     const isPuzzleObject = ["lamp", "mirror", "drawer", "clock"].includes(interacted);
@@ -209,7 +217,7 @@ function interactInput(e){
     if (typeof window.handleRoom6Puzzle === "function") {
     window.handleRoom6Puzzle(interacted);
     }
-    
+
     if(hitboxes[interacted].item_pickup){
         gameState[interacted] = !gameState[interacted];
         addToInventory(hitboxes[interacted].item_pickup);
@@ -260,9 +268,14 @@ function interactInput(e){
         triggerPedestalDialogue();
     }
 
+    if(interacted === "chest-open"){
+        gameState["chest-open"] = true;
+        delete hitboxes[interacted];
+
+    }
+
     
 
-    console.log("New value: ", !gameState[interacted]);
     setGameState(gameState);
     console.log(getGameState_exp());
     loadAssets_exp();
@@ -277,5 +290,4 @@ function inside_bounds(obj){
        plr.top >= obj_rect.top && 
        plr.right <= obj_rect.right && 
        plr.bottom <= obj_rect.bottom;
-
 }

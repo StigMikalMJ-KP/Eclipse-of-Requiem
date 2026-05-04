@@ -9,7 +9,8 @@ const default_states = {
     "holy-book2": false,
     "keyinhole": false,
     "bar": true,
-    "doorfromtop": true
+    "doorfromtop": false,
+    "chest-open": false
 }
 
 
@@ -30,15 +31,6 @@ function loadAssets(){
         }
     }
 
-    try{
-        if(game["chest"]){
-            document.getElementById("chest-open").style.display = "inline";
-        } else if (!game["chest"]){
-            document.getElementById("chest-open").style.display = "none";       
-        }
-    } catch(e){
-        console.log(e);
-    }
 }
 
 export function resetStates(){
@@ -56,16 +48,6 @@ export function loadAssets_exp(){
         } else {
             assetE.style.display = "none";
         }
-    }
-
-    try{
-        if(game["chest"]){
-            document.getElementById("chest-open").style.display = "inline";
-        } else if (!game["chest"]){
-            document.getElementById("chest-open").style.display = "none";       
-        }
-    } catch(e){
-        console.log(e);
     }
 }
 
