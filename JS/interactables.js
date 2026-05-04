@@ -90,7 +90,7 @@ const hitboxes = {
         item_pickup: "scroll_red",
         required_item: false,
         switch_item: false,
-        toggle: false,
+        toggle: ["door-skelly", "glow"],
         height: 35,
         width: 10
     },
@@ -223,87 +223,58 @@ function interactInput(e){
         }
     }
     let gameState = getGameState_exp();
-
-    console.log("Interacted with:",interacted)
-
-    if (typeof window.handleRoom6Puzzle === "function") {
-    window.handleRoom6Puzzle(interacted);
-    }
-
-    if(hitboxes[interacted].item_pickup){
-        gameState[interacted] = !gameState[interacted];
-        addToInventory(hitboxes[interacted].item_pickup);
-        
-        if (interacted === "holy-book1") {
-            triggerHolyBookDialogue();
-        }
-        
-        if (interacted === "fingerino") {
-            triggerFingerDialogue();
-        }
-
-        if (interacted === "fingertino") {
-            removeFromInventory("finger");
-
-        }
+    const hitboxData = hitboxes[interacted];
 
 
-        loadInventory();
-        delete hitboxes[interacted];
+    const hasRequired = !hitboxData.required_item || isInInventory(hitboxData.required_item);
 
-    } else if(
-    !hitboxes[interacted].required_item ||
-    isInInventory(hitboxes[interacted].required_item)
-    ){
-        gameState[interacted] = !gameState[interacted];
-        
-        if(interacted === "holy-book2") {
-            triggerPedestalDialogue();
-        }
-        
-        removeFromInventory(hitboxes[interacted].required_item);
-        
-        if(hitboxes[interacted].switch_item){
-            let items = hitboxes[interacted].switch_item;
-            if(Array.isArray(items)){
-                for(let item in items){
-                    addToInventory(items[item]);
+    if (hasRequired) {
+     
+        if (hitboxData.toggle) {
+            let elements = hitboxData.toggle;
+            if (Array.isArray(elements)) {
+                for (let elName of elements) {
+                    gameState[elName] = !gameState[elName];
                 }
-            } else if(typeof items === "string") addToInventory(items);
-            
-        } else if(hitboxes[interacted].toggle){
-            let element = document.getElementById(hitboxes[interacted].toggle);
-            gameState[element.id] = !gameState[element.id];
-
-            switch(interacted){
-                case "keyinhole":
+            } else {
+                gameState[elements] = !gameState[elements];
+                if (interacted === "keyinhole") {
                     gameState["opened-rooms"].push(3);
                     openRoom1Exit();
-                    break;
+                }
             }
         }
 
+       
+        if (hitboxData.item_pickup) {
+            gameState[interacted] = !gameState[interacted];
+            addToInventory(hitboxData.item_pickup);
+            
+            if (interacted === "holy-book1") triggerHolyBookDialogue();
+            if (interacted === "fingerino") triggerFingerDialogue();
+            if (interacted === "fingertino") removeFromInventory("finger");
+
+            delete hitboxes[interacted];
+        } else if (hitboxData.required_item || hitboxData.switch_item) {
+            if (interacted === "holy-book2") triggerPedestalDialogue();
+            gameState[interacted] = !gameState[interacted];
+            removeFromInventory(hitboxData.required_item);
+            
+            if (hitboxData.switch_item) {
+                let items = hitboxData.switch_item;
+                Array.isArray(items) ? items.forEach(i => addToInventory(i)) : addToInventory(items);
+            }
+            delete hitboxes[interacted];
+        }
+
         loadInventory();
-
-        delete hitboxes[interacted];
-    } else if(interacted === "holy-book2") {
-        // Show dialogue even if they don't have the required item
-        triggerPedestalDialogue();
-    }
-
-    if(interacted === "chest-open"){
-        gameState["chest-open"] = true;
-        delete hitboxes[interacted];
-
-    }
-
-    
+    } else {
+        if (interacted === "holy-book2") triggerPedestalDialogue();
+    } 
 
     setGameState(gameState);
-    console.log(getGameState_exp());
     loadAssets_exp();
 }
-
 function inside_bounds(obj){
     const plr = player.getBoundingClientRect();
     const obj_rect = obj.getBoundingClientRect();
@@ -314,3 +285,6 @@ function inside_bounds(obj){
        plr.right <= obj_rect.right && 
        plr.bottom <= obj_rect.bottom;
 }
+
+
+

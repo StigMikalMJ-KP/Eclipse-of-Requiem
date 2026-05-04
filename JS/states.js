@@ -3,6 +3,7 @@ const GAME_STATE = "requiem_gamestate2026";
 
 document.addEventListener("DOMContentLoaded", loadAssets);
 
+
 const default_states = {
     "bar": true,
     "holy-book1": true,
@@ -10,6 +11,8 @@ const default_states = {
     "keyinhole": false,
     "bar": true,
     "doorfromtop": false,
+    "door-skelly": true,
+    "glow": false,
     "chest-open": false,
     "opened-rooms": []
 }
@@ -22,6 +25,7 @@ const default_states = {
 function loadAssets(){
     let game = getGameState();
     for(let state in game){
+        console.log("Loading assets: ", state, game[state]);
         if(!document.getElementById(state)) continue;
         let assetE = document.getElementById(state)
 
@@ -41,11 +45,12 @@ export function resetStates(){
 export function loadAssets_exp(){
     let game = getGameState();
     for(let state in game){
+        console.log("Loading assets: ", state, game[state]);
         if(!document.getElementById(state)) continue;
         let assetE = document.getElementById(state)
 
         if(game[state] == true){
-            assetE.style.display = "inline";
+            assetE.style.display = "inline"; 
         } else {
             assetE.style.display = "none";
         }
