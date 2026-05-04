@@ -19,8 +19,17 @@ function getInventoryArray(){
 
 export function addToInventory(obj){
     let inv_objects = getInventoryArray();
-    inv_objects.push(obj);
-    localStorage.setItem(INVENTORY, JSON.stringify(inv_objects));
+    let item_in_inv = false;
+    for(let i = 0; i < inv_objects.length; i++){
+        if(inv_objects[i] === obj){
+            item_in_inv = true;
+        }
+    }
+
+    if(!item_in_inv){
+        inv_objects.push(obj);
+        localStorage.setItem(INVENTORY, JSON.stringify(inv_objects));
+    }
 }
 
 export function removeFromInventory(obj){
