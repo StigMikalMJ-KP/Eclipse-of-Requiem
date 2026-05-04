@@ -3,25 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Room 10</title>
+
     <link rel="stylesheet" href="../CSS/map.css">
-    <link rel="stylesheet" href="../CSS/room10.css">
-    <script src="../JS/inventory.js"></script>
-    <script src="../JS/UI.js"></script>
-    <script src="../JS/room10.js"></script>
+    <link rel="stylesheet" href="../CSS/room9.css">
 </head>
 <body>
-    <main id="container">
-        <div id="room-stage">
+<main id="container">
+    <div id="room-stage">
 
-            <img id="forrest" src="../Assets/Map/Room10/Purpleforrest.jpg" alt="">
-            <img id="map" src="../Assets/Map/Room10/Frame9-Layer1.png" alt="">
-            <img id="window-light" class="room-overlay" src="../Assets/Map/Room10/windowlight.png" alt="Light from window">
+        <!--
+            Room 10 is room 9 flipped. Only the background images are mirrored —
+            not the stage — so movement and coordinates stay correct.
+        -->
+        <style>
+            #forrest, #map, #window-light,
+            #mirror-overlay, #mirror-glass, #mirror { transform: scaleX(-1); }
+        </style>
 
+        <!-- BACKGROUND (same assets as room 9, flipped by CSS above) -->
+        <img id="forrest" src="../Assets/Map/Room9/Purpleforrest.jpg">
+        <img id="map"     src="../Assets/Map/room9/Frame9-Layer1.png">
+
+        <!-- OVERLAYS -->
+        <img id="window-light"   class="room-overlay" src="../Assets/Map/Room9/windowlight.png">
+        <img id="mirror-overlay" class="room-overlay" src="../Assets/Map/Room9/MirrorBackground.png"               style="display: none;">
+        <img id="mirror-glass"   class="room-overlay" src="../Assets/Map/Room9/MirrorBackgroundOverBackground.png"  style="display: none;">
+        <img id="mirror"         class="room-overlay" src="../Assets/Map/Room9/Mirror.png"                          style="display: none;">
+
+        <!-- PROMPT -->
+        <div id="dynamic-z-prompt">
+            <span class="z-key">[Z]</span>
+            <span id="dynamic-z-text"></span>
         </div>
-    </main>
+
+        <!-- TELEPORT VISUAL -->
+        <div id="teleport-zone-room1" class="teleport-zone"></div>
+
+    </div>
+</main>
+
+<!-- Scripts at the bottom so the DOM is ready -->
+<!-- room10.js (config) must come before mirrorRoom.js (logic) -->
+<script type="module" src="../JS/inventory.js"></script>
+<script type="module" src="../JS/UI.js"></script>
+<script type="module" src="../JS/movement.js"></script>
+<script src="../JS/room10.js"></script>
+<script src="../JS/mirrorRoom.js"></script>
 </body>
-<script src="../JS/movement.js"></script>
 </html>
-
-

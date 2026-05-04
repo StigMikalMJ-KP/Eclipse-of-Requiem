@@ -2,6 +2,7 @@ import { setGameState, getGameState_exp, loadAssets_exp } from "./states.js"
 import { addToInventory, loadInventory, isInInventory, removeFromInventory } from "./inventory.js"
 import { openRoom1Exit, triggerHolyBookDialogue } from "./room1.js"
 import { triggerPedestalDialogue } from "./room2.js"
+import { triggerFingerDialogue } from "./room3.js"
 
 document.addEventListener("DOMContentLoaded", loadInventory);
 document.addEventListener("DOMContentLoaded", createInteractableHitboxes);
@@ -95,14 +96,25 @@ const hitboxes = {
     },
 
     "fingerino": {
-        x: 67,
-        y: 67,
+        x: 63,
+        y: 34,
         item_pickup: "finger",
         required_item: false,
         switch_item: false,
         toggle: false,
-        height: 35,
-        width: 10
+        height: 60,
+        width: 23
+    },
+
+    "fingertino": {
+        x: 8,
+        y: 57,
+        item_pickup: false,
+        required_item: "finger",
+        switch_item: false,
+        toggle: false,
+        height: 25,
+        width: 12.75
     }
 }
 
@@ -226,6 +238,11 @@ function interactInput(e){
             triggerHolyBookDialogue();
         }
         
+        if(interacted === "fingerino") {
+            triggerFingerDialogue();
+        }
+
+
         loadInventory();
         delete hitboxes[interacted];
 

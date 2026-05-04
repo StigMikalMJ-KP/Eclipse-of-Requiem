@@ -3,30 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Room 9</title>
+
     <link rel="stylesheet" href="../CSS/map.css">
     <link rel="stylesheet" href="../CSS/room9.css">
-    <script src="../JS/inventory.js"></script>
-    <script src="../JS/UI.js"></script>
-    <script src="../JS/room9.js"></script>
 </head>
 <body>
-    <main id="container">
-        <div id="room-stage">
+<main id="container">
+    <div id="room-stage">
 
-            <img id="forrest" src="../Assets/Map/Room9/Purpleforrest.jpg" alt="">
-            <img id="map" src="../Assets/Map/room9/Frame9-Layer1.png" alt="">
-            <img id="window-light" class="room-overlay" src="../Assets/Map/Room9/windowlight.png" alt="Light from window">
-            <img id="mirror-overlay" class="room-overlay mirror-hidden" src="../Assets/Map/Room9/Mirror.png" alt="Mirror reflection">
+        <!-- BACKGROUND -->
+        <img id="forrest" src="../Assets/Map/Room9/Purpleforrest.jpg">
+        <img id="map"     src="../Assets/Map/room9/Frame9-Layer1.png">
 
-            <!-- Visual teleport zones -->
-            <div id="teleport-zone-room1" class="teleport-zone" data-room="room10.html"></div>
-            <div id="mirror-zone-visual" class="mirror-zone"></div>
+        <!-- OVERLAYS -->
+        <img id="window-light"   class="room-overlay" src="../Assets/Map/Room9/windowlight.png">
+        <img id="mirror-overlay" class="room-overlay" src="../Assets/Map/Room9/MirrorBackground.png"               style="display: none;">
+        <img id="mirror-glass"   class="room-overlay" src="../Assets/Map/Room9/MirrorBackgroundOverBackground.png"  style="display: none;">
+        <img id="mirror"         class="room-overlay" src="../Assets/Map/Room9/Mirror.png"                          style="display: none;">
 
+        <!-- PROMPT -->
+        <div id="dynamic-z-prompt">
+            <span class="z-key">[Z]</span>
+            <span id="dynamic-z-text"></span>
         </div>
-    </main>
+
+        <!-- TELEPORT VISUAL -->
+        <div id="teleport-zone-room1" class="teleport-zone"></div>
+
+    </div>
+</main>
+
+<!-- Scripts at the bottom so the DOM is ready -->
+<!-- room9.js (config) must come before mirrorRoom.js (logic) -->
+<script type="module" src="../JS/inventory.js"></script>
+<script type="module" src="../JS/UI.js"></script>
+<script type="module" src="../JS/movement.js"></script>
+<script src="../JS/room9.js"></script>
+<script src="../JS/mirrorRoom.js"></script>
 </body>
-<script src="../JS/room9Movement.js"></script>
 </html>
-
-

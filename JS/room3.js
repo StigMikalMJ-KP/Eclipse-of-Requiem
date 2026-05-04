@@ -2,6 +2,7 @@ console.log("Room 3 script loaded");
 
 import { addToInventory } from "./inventory.js";
 import { getGameState_exp } from "./states.js";
+import { startDialogue } from "./dialogue.js";
 
 window.ROOM_HITBOXES = {
     ...(window.ROOM_HITBOXES || {}),
@@ -48,3 +49,15 @@ window.ROOM_HITBOXES = {
         }
     ]
 };
+
+
+export function triggerFingerDialogue() {
+    startDialogue([
+        "A sacred book...",
+        "It Looks almost Holy.",
+        "This must be important.",
+        "Skeleton-Finger was added to your inventory."
+    ], "character");
+
+   
+}
