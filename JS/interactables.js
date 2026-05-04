@@ -95,14 +95,14 @@ const hitboxes = {
     },
 
     "fingerino": {
-        x: 67,
-        y: 67,
+        x: 63,
+        y: 34,
         item_pickup: "finger",
         required_item: false,
         switch_item: false,
         toggle: false,
-        height: 35,
-        width: 10
+        height: 60,
+        width: 23
     }
 }
 
