@@ -1,10 +1,14 @@
-import { addToInventory } from "./inventory"
+console.log("Room 3 script loaded");
+
+import { addToInventory } from "./inventory.js";
+import { getGameState_exp } from "./states.js";
+
 window.ROOM_HITBOXES = {
     ...(window.ROOM_HITBOXES || {}),
     "room3.html": [
         // Values are percentages of map width/height.
-        { id: "top-cutoff", x: 0, y: 0, width: 100, height: 15 },
-        { id: "coffin", x: 70, y: 43, width: 10, height: 23 },
+        { id: "top-cutoff", x: 0, y: 0, width: 100, height: 20 },
+        { id: "coffin", x: 70, y: 43, width: 10, height: 26 },
         { id: "pedestal", x: 15, y: 65, width: 1, height: 0.1 },
         {
             id: "teleporter-room3to1",
@@ -15,7 +19,7 @@ window.ROOM_HITBOXES = {
             trigger: {
                 type: "teleport",
                 room: "room1.html",
-                spawn: { x: 10, y: 10 }
+                spawn: { x: 60, y: 20 }
             }
         },
         {
