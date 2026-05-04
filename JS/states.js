@@ -9,7 +9,7 @@ const default_states = {
     "holy-book2": false,
     "keyinhole": false,
     "bar": true,
-    "opened-rooms": [1,2]
+    "doorfromtop": true
 }
 
 /*
@@ -21,11 +21,20 @@ function loadAssets(){
     for(let state in game){
         if(!document.getElementById(state)) continue;
         let assetE = document.getElementById(state)
+
+        console.log("Chest state: ", game["chest"]);
+
         if(game[state] == true){
             assetE.style.display = "inline";
         } else {
             assetE.style.display = "none";
         }
+    }
+
+    if(game["chest"]){
+        document.getElementById("chest-open").style.display = "inline";
+    } else if (!game["chest"]){
+        document.getElementById("chest-open").style.display = "none";
     }
 }
 
@@ -38,7 +47,15 @@ export function loadAssets_exp(){
     for(let state in game){
         if(!document.getElementById(state)) continue;
         let assetE = document.getElementById(state)
-        if(game[state] == true){
+
+        console.log("Chest state: ", game["chest"]);
+
+        if(game["chest"] == true){
+            document.getElementById("chest-open").style.display = "inline";
+        } else if (!game["chest"]){
+            document.getElementById("chest-open").style.display = "none";
+        }
+        else if(game[state] == true){
             assetE.style.display = "inline";
         } else {
             assetE.style.display = "none";

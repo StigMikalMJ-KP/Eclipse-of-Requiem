@@ -7,8 +7,8 @@ window.ROOM_HITBOXES = {
     "room2.html": [
         // Values are percentages of map width/height.
         { id: "top-cutoff-left", x: 0, y: 0, width: 45, height: 20 },
-        //{ id: "top-cutoff-middle", x: 45, y: 0, width: 10, height: 20 },
-        { id: "top-cutoff-right", x: 60, y: 0, width: 35, height: 20 },
+        //{ id: "top-cutoff-middle", x: 45, y: 0, width: 13, height: 20 },
+        { id: "top-cutoff-right", x: 59, y: 0, width: 38, height: 20 },
         { id: "statue-blue", x: 0, y: 0, width: 20, height: 35 },
         { id: "statue-red", x: 82, y: 0, width: 20, height: 35 },
         { id: "statue-pink", x: 77, y: 70, width: 20, height: 35 },
@@ -25,22 +25,26 @@ window.ROOM_HITBOXES = {
                 room: "room1.html",
                 spawn: { x: 99, y: 55 }
             }
-        },
-        {
-            id: "teleporter-room8b",
-            x: 45,
-            y: 0,
-            width: 10,
-            height: 10,
-            trigger: {
-                type: "teleport",
-                room: "room8.html",
-                spawn: { x: 99, y: 55 }
-            }
-        }
+        }, 
         
     ]
 };
+
+let hitboxes = window.ROOM_HITBOXES["room2.html"];
+const door_teleporter = {
+    id: "teleporter-room2a",
+    x: 45,
+    y: 0,
+    width: 13,
+    height: 14,
+    trigger: {
+        type: "teleport",
+        room: "room8.html",
+        spawn: { x: 99, y: 55 }
+    }
+}
+
+
 
 export function triggerPedestalNoDialogue() {
     startDialogue([
@@ -65,5 +69,23 @@ export function triggerPedestalDialogue() {
         triggerPedestalYesDialogue();
     } else {
         triggerPedestalNoDialogue();
+    }
+}
+
+
+
+const room_stage = document.getElementById("room-stage");
+let hitboxes = window.ROOM_HITBOXES["room2.html"];
+for(let i = 0; i < hitboxes.length; i++){
+    if(hitboxes[i].id === "maze-wall"){
+        let wall = document.createElement("div");
+        wall.style.position = "absolute";
+        wall.style.left = hitboxes[i].x + "%";
+        wall.style.top = hitboxes[i].y + "%";
+        wall.style.width = hitboxes[i].width + "%";
+        wall.style.height = hitboxes[i].height + "%";
+        wall.style.backgroundColor = "rgb(69, 42, 14)"; 
+        wall.style.border = "5px solid rgb(43, 27, 10)";
+        room_stage.appendChild(wall);
     }
 }
