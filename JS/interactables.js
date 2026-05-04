@@ -9,7 +9,7 @@ document.addEventListener("keydown", checkInteractableHitboxes);
 
 const inventorySlots = document.querySelectorAll(".inventory-slot");
 
-const showHitboxes = true;
+const showHitboxes = false;
 let insideHitbox = false;
 let currentHitbox;
 
@@ -89,7 +89,9 @@ const hitboxes = {
         item_pickup: "scroll_red",
         required_item: false,
         switch_item: false,
-        toggle: false
+        toggle: false,
+        height: 35,
+        width: 10
 
     }
 }
@@ -235,7 +237,6 @@ function interactInput(e){
 
             switch(interacted){
                 case "keyinhole":
-                    gameState["opened-rooms"].push(3);
                     openRoom1Exit();
                     break;
             }

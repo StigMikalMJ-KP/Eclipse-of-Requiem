@@ -20,7 +20,7 @@ window.ROOM_HITBOXES = {
         { id: "maze-wall", x: 76, y: 41, width: 3, height: 35},
 
         {
-            id: "maze-wall",
+            id: "teleporter-room5a",
             x: 40,
             y: 91,
             width: 10,
