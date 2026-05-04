@@ -27,7 +27,7 @@ window.ROOM_HITBOXES = {
             height: 10,
             trigger: {
                 type: "teleport",
-                room: "room2.html",
+                room: "room4.html",
                 spawn: { x: 25, y: 48 }
             }
         },
@@ -39,7 +39,7 @@ window.ROOM_HITBOXES = {
             height: 14,
             trigger: {
                 type: "teleport",
-                room: "room3.html",
+                room: "room9.html",
                 spawn: { x: 59, y: 77 }
             }
         }
@@ -47,6 +47,9 @@ window.ROOM_HITBOXES = {
     ]
 };
 
+/*
+    Lager synlige vegger ut i fra hitboxene
+*/
 const room_stage = document.getElementById("room-stage");
 let hitboxes = window.ROOM_HITBOXES["room5.html"];
 for(let i = 0; i < hitboxes.length; i++){
