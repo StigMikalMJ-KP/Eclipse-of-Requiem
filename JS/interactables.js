@@ -92,8 +92,8 @@ const hitboxes = {
         toggle: false,
         height: 35,
         width: 10
-
     },
+
     "fingerino": {
         x: 67,
         y: 67,
@@ -103,7 +103,6 @@ const hitboxes = {
         toggle: false,
         height: 35,
         width: 10
-
     }
 }
 
