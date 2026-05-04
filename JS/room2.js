@@ -7,7 +7,7 @@ window.ROOM_HITBOXES = {
     "room2.html": [
         // Values are percentages of map width/height.
         { id: "top-cutoff-left", x: 0, y: 0, width: 45, height: 20 },
-        //{ id: "top-cutoff-middle", x: 45, y: 0, width: 13, height: 20 },
+        { id: "top-cutoff-middle", x: 45, y: 0, width: 13, height: 20 },
         { id: "top-cutoff-right", x: 59, y: 0, width: 38, height: 20 },
         { id: "statue-blue", x: 0, y: 0, width: 20, height: 35 },
         { id: "statue-red", x: 82, y: 0, width: 20, height: 35 },
@@ -45,6 +45,27 @@ const door_teleporter = {
 }
 
 
+let path = window.location.pathname;
+let page = path.split("/").pop();
+if(page === "room2.html"){
+    document.addEventListener("DOMContentLoaded", load_upper_door);
+};
+
+function load_upper_door(){
+    let game = getGameState_exp();
+    console.log("Door state: ", game["doorfromtop"])
+    if(game["doorfromtop"]){
+        hitboxes.push(door_teleporter);
+        
+        for(let hitbox in hitboxes){
+            if(hitboxes[hitbox].id === "top-cutoff-middle"){
+                delete hitboxes[hitbox];
+                break;
+            }
+        }
+    }
+}
+
 
 export function triggerPedestalNoDialogue() {
     startDialogue([
@@ -69,23 +90,5 @@ export function triggerPedestalDialogue() {
         triggerPedestalYesDialogue();
     } else {
         triggerPedestalNoDialogue();
-    }
-}
-
-
-
-const room_stage = document.getElementById("room-stage");
-let hitboxes = window.ROOM_HITBOXES["room2.html"];
-for(let i = 0; i < hitboxes.length; i++){
-    if(hitboxes[i].id === "maze-wall"){
-        let wall = document.createElement("div");
-        wall.style.position = "absolute";
-        wall.style.left = hitboxes[i].x + "%";
-        wall.style.top = hitboxes[i].y + "%";
-        wall.style.width = hitboxes[i].width + "%";
-        wall.style.height = hitboxes[i].height + "%";
-        wall.style.backgroundColor = "rgb(69, 42, 14)"; 
-        wall.style.border = "5px solid rgb(43, 27, 10)";
-        room_stage.appendChild(wall);
     }
 }

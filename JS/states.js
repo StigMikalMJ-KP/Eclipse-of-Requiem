@@ -12,6 +12,7 @@ const default_states = {
     "doorfromtop": true
 }
 
+
 /*
     Laster inn assets med oppdartet tilstand.
     Synlig/ikke synlig
@@ -22,8 +23,6 @@ function loadAssets(){
         if(!document.getElementById(state)) continue;
         let assetE = document.getElementById(state)
 
-        console.log("Chest state: ", game["chest"]);
-
         if(game[state] == true){
             assetE.style.display = "inline";
         } else {
@@ -31,10 +30,14 @@ function loadAssets(){
         }
     }
 
-    if(game["chest"]){
-        document.getElementById("chest-open").style.display = "inline";
-    } else if (!game["chest"]){
-        document.getElementById("chest-open").style.display = "none";
+    try{
+        if(game["chest"]){
+            document.getElementById("chest-open").style.display = "inline";
+        } else if (!game["chest"]){
+            document.getElementById("chest-open").style.display = "none";       
+        }
+    } catch(e){
+        console.log(e);
     }
 }
 
@@ -48,18 +51,21 @@ export function loadAssets_exp(){
         if(!document.getElementById(state)) continue;
         let assetE = document.getElementById(state)
 
-        console.log("Chest state: ", game["chest"]);
-
-        if(game["chest"] == true){
-            document.getElementById("chest-open").style.display = "inline";
-        } else if (!game["chest"]){
-            document.getElementById("chest-open").style.display = "none";
-        }
-        else if(game[state] == true){
+        if(game[state] == true){
             assetE.style.display = "inline";
         } else {
             assetE.style.display = "none";
         }
+    }
+
+    try{
+        if(game["chest"]){
+            document.getElementById("chest-open").style.display = "inline";
+        } else if (!game["chest"]){
+            document.getElementById("chest-open").style.display = "none";       
+        }
+    } catch(e){
+        console.log(e);
     }
 }
 
