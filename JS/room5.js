@@ -1,11 +1,11 @@
 import { getGameState_exp, setGameState } from "./states.js";
+import { startDialogue } from "./dialogue.js";
 
 window.ROOM_HITBOXES = {
     ...(window.ROOM_HITBOXES || {}),
     "room5.html": [
         // Values are percentages of map width/height.
         { id: "top-cutoff-left", x: 0, y: 0, width: 38, height: 20 },
-        //{ id: "top-cutoff-middle", x: 45, y: 0, width: 10, height: 20 },
         { id: "top-cutoff-right", x: 54, y: 0, width: 40, height: 20 },
         { id: "chest", x: 0, y: 30, width: 10, height: 3},
 
@@ -63,3 +63,18 @@ for(let i = 0; i < hitboxes.length; i++){
     }
 }
 
+window.addEventListener("load", () => {
+    // Only show dialogue once per game
+    const ROOM5_DIALOGUE_KEY = "requiem_room5_dialogue_shown";
+    
+    if(!localStorage.getItem(ROOM5_DIALOGUE_KEY)){
+        // Added "character" here to trigger the portrait (hode.png)
+        startDialogue([
+            "Wow, this seems like a maze!", 
+            "I am bombastically aMAZEd.", 
+            "To think that they managed to fit that in here!"
+        ], "character"); 
+
+        localStorage.setItem(ROOM5_DIALOGUE_KEY, "true");
+    }
+});

@@ -7,7 +7,7 @@ window.ROOM_HITBOXES = {
     "room1.html": [
         // Values are percentages of map width/height.
         { id: "top-cutoff-left", x: 0, y: 0, width: 38, height: 20 },
-        { id: "top-cutoff-middle", x: 45, y: 0, width: 10, height: 20 },
+        { id: "top-cutoff-middle", x: 39, y: 0, width: 14, height: 20 },
         { id: "top-cutoff-right", x: 54, y: 0, width: 40, height: 20 },
         {
             id: "teleporter-room1a",
@@ -86,3 +86,20 @@ window.addEventListener("load", () => {
         localStorage.setItem(ROOM1_DIALOGUE_KEY, "true");
     }
 });
+
+
+const room_stage = document.getElementById("room-stage");
+let hitboxes = window.ROOM_HITBOXES["room1.html"];
+for(let i = 0; i < hitboxes.length; i++){
+    if(hitboxes[i].id === "maze-wall"){
+        let wall = document.createElement("div");
+        wall.style.position = "absolute";
+        wall.style.left = hitboxes[i].x + "%";
+        wall.style.top = hitboxes[i].y + "%";
+        wall.style.width = hitboxes[i].width + "%";
+        wall.style.height = hitboxes[i].height + "%";
+        wall.style.backgroundColor = "rgb(69, 42, 14)"; 
+        wall.style.border = "5px solid rgb(43, 27, 10)";
+        room_stage.appendChild(wall);
+    }
+}
