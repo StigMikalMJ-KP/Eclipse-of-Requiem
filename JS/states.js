@@ -10,7 +10,8 @@ const default_states = {
     "keyinhole": false,
     "bar": true,
     "doorfromtop": false,
-    "chest-open": false
+    "chest-open": false,
+    "opened-rooms": []
 }
 
 

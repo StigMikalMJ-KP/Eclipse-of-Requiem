@@ -272,6 +272,7 @@ function interactInput(e){
 
             switch(interacted){
                 case "keyinhole":
+                    gameState["opened-rooms"].push(3);
                     openRoom1Exit();
                     break;
             }
