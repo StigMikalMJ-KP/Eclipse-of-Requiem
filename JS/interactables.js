@@ -9,7 +9,7 @@ document.addEventListener("keydown", checkInteractableHitboxes);
 
 const inventorySlots = document.querySelectorAll(".inventory-slot");
 
-const showHitboxes = false;
+const showHitboxes = true;
 let insideHitbox = false;
 let currentHitbox;
 
@@ -87,6 +87,17 @@ const hitboxes = {
         x: 1,
         y: 24,
         item_pickup: "scroll_red",
+        required_item: false,
+        switch_item: false,
+        toggle: false,
+        height: 35,
+        width: 10
+
+    },
+    "fingerino": {
+        x: 67,
+        y: 67,
+        item_pickup: "finger",
         required_item: false,
         switch_item: false,
         toggle: false,
