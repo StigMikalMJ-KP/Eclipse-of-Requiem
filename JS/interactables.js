@@ -226,12 +226,17 @@ function interactInput(e){
         gameState[interacted] = !gameState[interacted];
         addToInventory(hitboxes[interacted].item_pickup);
         
-        if(interacted === "holy-book1") {
+        if (interacted === "holy-book1") {
             triggerHolyBookDialogue();
         }
         
-        if(interacted === "fingerino") {
+        if (interacted === "fingerino") {
             triggerFingerDialogue();
+        }
+
+        if (interacted === "fingertino") {
+            removeFromInventory("finger");
+
         }
 
 
