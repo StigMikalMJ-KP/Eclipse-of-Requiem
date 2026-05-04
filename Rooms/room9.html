@@ -7,6 +7,18 @@
 
     <link rel="stylesheet" href="../CSS/map.css">
     <link rel="stylesheet" href="../CSS/room9.css">
+
+
+    <!-- Bridge: expose module functions to window so mirrorRoom.js can reach them -->
+    <script type="module">
+        import { addToInventory, removeFromInventory, isInInventory, loadInventory } from "../JS/inventory.js";
+        import { startDialogue } from "../JS/dialogue.js";
+        window.addToInventory      = addToInventory;
+        window.removeFromInventory = removeFromInventory;
+        window.isInInventory       = isInInventory;
+        window.loadInventory       = loadInventory;
+        window.startDialogue       = startDialogue;
+    </script>
 </head>
 <body>
 <main id="container">

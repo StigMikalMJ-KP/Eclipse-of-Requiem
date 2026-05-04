@@ -1,3 +1,29 @@
+// ============================================================
+//  mirrorRoom.js — Shared logic for all mirror rooms
+//
+//  Each room that uses this system needs to define a
+//  MIRROR_ROOM_CONFIG object before this script loads, e.g:
+//
+//  <script>
+//  const MIRROR_ROOM_CONFIG = {
+//      roomFile:        "room9.html",
+//      scrollHalfSrc:   "../Assets/ITEMS/scroll_blue_Half_First.png",
+//      scrollHalfItem:  "scroll_blue_Half_First",
+//      scrollOtherItem: "scroll_blue_Half_Second",
+//      storageKeyMine:  "requiem_scroll_first_picked",
+//      storageKeyOther: "requiem_scroll_second_picked",
+//      scrollPosition:  { x: 520, y: 280 },
+//      hitboxes: [
+//          { id: "teleporter-room1", x: 40, y: 85, width: 20, height: 15,
+//            trigger: { type: "manual_teleport", room: "room1.html", spawn: { x: 99, y: 55 } } },
+//          { id: "mirror-zone", x: 70, y: 30, width: 35, height: 70,
+//            trigger: { type: "mirror", action: "show" } }
+//      ]
+//  };
+//  </script>
+// ============================================================
+
+
 // ---- Sprite paths -------------------------------------------
 
 const MIRROR_SPRITES = {
@@ -275,7 +301,7 @@ function leaveMirrorMode() {
 
     if (fakeMainPlayer) fakeMainPlayer.style.display = "none";
     if (mirrorClone)    mirrorClone.style.display    = "none";
-    if (scrollItemEl)   scrollItemEl.style.display   = "none";
+    if (scrollItemEl && !scrollPickedUp) scrollItemEl.style.display = "none";
 
     // Restore the normal scene
     const realPlayer = document.getElementById("player");
@@ -302,12 +328,13 @@ function spawnScrollItem(stage) {
     scrollItemEl = document.createElement("img");
     scrollItemEl.src = MIRROR_ROOM_CONFIG.scrollHalfSrc;
     Object.assign(scrollItemEl.style, {
-        position: "absolute",
-        left:     `${MIRROR_ROOM_CONFIG.scrollPosition.x}px`,
-        top:      `${MIRROR_ROOM_CONFIG.scrollPosition.y}px`,
-        width:    "60px",
-        display:  "none",   // only shown when inside mirror mode
-        zIndex:   "200",
+        position:  "absolute",
+        left:      "50%",           // centered horizontally in the stage
+        top:       "40%",           // roughly mid-screen vertically
+        transform: "translateX(-50%)",
+        width:     "5%",            // scales with the stage width
+        display:   "none",          // only shown when inside mirror mode
+        zIndex:    "200",
         pointerEvents: "none"
     });
     stage.appendChild(scrollItemEl);
@@ -318,8 +345,20 @@ function checkScrollProximity() {
         isNearScroll = false;
         return;
     }
-    const dx = parseFloat(fakeMainPlayer.style.left) - MIRROR_ROOM_CONFIG.scrollPosition.x;
-    const dy = parseFloat(fakeMainPlayer.style.top)  - MIRROR_ROOM_CONFIG.scrollPosition.y;
+    // Compare fake player position against scroll element's actual screen position
+    const stage     = document.getElementById("room-stage");
+    const stageRect = stage?.getBoundingClientRect();
+    const scrollRect = scrollItemEl.getBoundingClientRect();
+    if (!stageRect || !scrollRect.width) { isNearScroll = false; return; }
+
+    // Convert fake player's px (relative to stage) to screen coords
+    const playerScreenX = stageRect.left + parseFloat(fakeMainPlayer.style.left);
+    const playerScreenY = stageRect.top  + parseFloat(fakeMainPlayer.style.top);
+    const scrollCX = scrollRect.left + scrollRect.width  / 2;
+    const scrollCY = scrollRect.top  + scrollRect.height / 2;
+
+    const dx = playerScreenX - scrollCX;
+    const dy = playerScreenY - scrollCY;
     isNearScroll = Math.sqrt(dx * dx + dy * dy) < SCROLL_PICKUP_RADIUS;
 }
 
@@ -331,15 +370,17 @@ function pickUpScroll() {
     const otherAlreadyCollected = localStorage.getItem(MIRROR_ROOM_CONFIG.storageKeyOther) === "true";
 
     if (otherAlreadyCollected) {
-        // Both halves collected — remove the other half and give the full scroll
-        removeFromInventory(MIRROR_ROOM_CONFIG.scrollOtherItem);
-        addToInventory(SCROLL_FULL);
+        // Both halves are now collected — combine into the full scroll
+        window.removeFromInventory(MIRROR_ROOM_CONFIG.scrollOtherItem);
+        window.addToInventory(SCROLL_FULL);
+        if (window.startDialogue) window.startDialogue(MIRROR_ROOM_CONFIG.combineDialogue, "character");
     } else {
-        // Just this half for now, wait for the other room
-        addToInventory(MIRROR_ROOM_CONFIG.scrollHalfItem);
+        // Only have one half, add it and wait for the other
+        window.addToInventory(MIRROR_ROOM_CONFIG.scrollHalfItem);
+        if (window.startDialogue) window.startDialogue(MIRROR_ROOM_CONFIG.pickupDialogue, "character");
     }
 
-    loadInventory();
+    window.loadInventory();
 }
 
 // ---- Mirror movement & animation ----------------------------
