@@ -49,10 +49,6 @@ const correctSequence = ["lamp", "mirror", "drawer", "clock"];
 
 let puzzleSequence = [];
 
-/*
-    Called from interactables.js whenever player presses Z on an interactable object.
-
-*/
 window.handleRoom6Puzzle = function(interacted) {
     // Ignore unrelated objects
     if (!correctSequence.includes(interacted)) {
@@ -83,7 +79,6 @@ window.handleRoom6Puzzle = function(interacted) {
 /*
     Success:
     - Reveal note
-    - Unlock door
 */
 function solveRoom6Puzzle() {
     let gameState = getGameState_exp();
@@ -112,11 +107,7 @@ function failRoom6Puzzle() {
     ], "character");
 }
 
-/*
-    Optional note collection:
-    If player interacts with room6-note later,
-    your interactables system can add it visually.
-*/
+
 window.collectRoom6Note = function() {
     let gameState = getGameState_exp();
 
