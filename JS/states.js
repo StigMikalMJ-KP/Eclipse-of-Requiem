@@ -14,7 +14,10 @@ const default_states = {
     "door-skelly": true,
     "glow": false,
     "chest-open": false,
-    "opened-rooms": []
+    "opened-rooms": [],
+    "fingerino": true,
+    "fingertino": false,
+    "missingpicture": false
 }
 
 

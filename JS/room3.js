@@ -8,7 +8,10 @@ window.ROOM_HITBOXES = {
     ...(window.ROOM_HITBOXES || {}),
     "room3.html": [
         // Values are percentages of map width/height.
-        { id: "top-cutoff", x: 0, y: 0, width: 100, height: 20 },
+        { id: "top-cutoff-left", x: 0, y: 0, width: 38, height: 20 },
+        { id: "top-cutoff-middle", x: 39, y: 0, width: 14, height: 20 },
+        { id: "top-cutoff-right", x: 54, y: 0, width: 40, height: 20 },
+
         { id: "coffin", x: 70, y: 43, width: 10, height: 26 },
         { id: "pedestal", x: 15, y: 65, width: 1, height: 0.1 },
         {
@@ -46,7 +49,7 @@ window.ROOM_HITBOXES = {
                 room: "room6.html",
                 spawn: { x: 99, y: 48 }
             }
-        }
+        },
     ]
 };
 
@@ -61,3 +64,36 @@ export function triggerFingerDialogue() {
 
    
 }
+
+
+document.addEventListener("DOMContentLoaded", load_room5_entrance);
+
+const room_stage = document.getElementById("room-stage");
+
+let hitboxes = window.ROOM_HITBOXES["room3.html"];
+function load_room5_entrance(){
+    let game = getGameState_exp();
+    if(game["chest-open"]){
+        hitboxes.push({
+            id: "maze-wall",
+            x: 45,
+            y: 7,
+            width: 8,
+            height: 14,
+            trigger: {
+                type: "teleport",
+                room: "room6.html",
+                spawn: { x: 55, y: 73 }
+            }
+        })
+
+        for(let hitbox in hitboxes){
+            if(hitboxes[hitbox].id === "top-cutoff-middle"){
+                delete hitboxes[hitbox];
+                break;
+            }
+        }
+    }
+
+}
+

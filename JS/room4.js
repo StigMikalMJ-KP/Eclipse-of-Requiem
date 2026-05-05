@@ -20,18 +20,30 @@ window.ROOM_HITBOXES = {
                 room: "room3.html",
                 spawn: { x: 25, y: 48 }
             }
-        },
-        {
-            id: "teleporter-room3to5",
-            x: 60,
-            y: 0,
-            width: 10,
-            height: 5,
-            trigger: {
-                type: "teleport",
-                room: "room5.html",
-                spawn: { x: 99, y: 48 }
-            }
         }
     ]
 };
+
+
+document.addEventListener("DOMContentLoaded", load_room6_entrance);
+
+const room_stage = document.getElementById("room-stage");
+
+let hitboxes = window.ROOM_HITBOXES["room4.html"];
+function load_room6_entrance(){
+    let game = getGameState_exp();
+    if(game["fingertino"]){
+        hitboxes.push({
+            id: "maze-wall",
+            x: 20,
+            y: 10,
+            width: 8,
+            height: 14,
+            trigger: {
+                type: "teleport",
+                room: "room5.html",
+                spawn: { x: 55, y: 76 }
+            }
+        })
+    }
+}

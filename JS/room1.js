@@ -43,12 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
         hitbox.width = 1;
         hitbox.height = 1;
     }
-
-    let path = window.location.pathname;
-    let page = path.split("/").pop();
-    if(page === "room1.html"){
-        
-    };
 })
 
 export function openRoom1Exit(){
