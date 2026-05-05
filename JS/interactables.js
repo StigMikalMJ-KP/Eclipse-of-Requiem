@@ -2,7 +2,8 @@ import { setGameState, getGameState_exp, loadAssets_exp } from "./states.js"
 import { addToInventory, loadInventory, isInInventory, removeFromInventory } from "./inventory.js"
 import { openRoom1Exit, triggerHolyBookDialogue } from "./room1.js"
 import { triggerPedestalDialogue } from "./room2.js"
-import { triggerFingerDialogue } from "./room3.js"
+import { triggerFingerDialogue, triggerFingertinoPedestalDialogue } from "./room3.js"
+import { triggerPianoDialogue, triggerMissingPictureDialogue } from "./room4.js"
 
 document.addEventListener("DOMContentLoaded", loadInventory);
 document.addEventListener("DOMContentLoaded", createInteractableHitboxes);
@@ -115,6 +116,28 @@ const hitboxes = {
         toggle: "missingpicture",
         height: 25,
         width: 16
+    },
+
+    "piano": {
+        x: 5,
+        y: 40,
+        item_pickup: false,
+        required_item: false,
+        switch_item: false,
+        toggle: false,
+        width: 35,
+        height: 50
+    },
+
+    "ghost":{
+        x: 12,
+        y: 20,
+        item_pickup: false,
+        required_item: false,
+        switch_item: false,
+        toggle: false,
+        width: 15,
+        height: 20
     }
 }
 
@@ -257,6 +280,7 @@ function interactInput(e){
             delete hitboxes[interacted];
         } else if (hitboxData.required_item || hitboxData.switch_item) {
             if (interacted === "holy-book2") triggerPedestalDialogue();
+            if (interacted === "fingertino") triggerFingertinoPedestalDialogue();
             gameState[interacted] = !gameState[interacted];
             removeFromInventory(hitboxData.required_item);
             
@@ -265,6 +289,10 @@ function interactInput(e){
                 Array.isArray(items) ? items.forEach(i => addToInventory(i)) : addToInventory(items);
             }
             delete hitboxes[interacted];
+        } else {
+            // Simple interactions that only trigger dialogue
+            if (interacted === "piano") triggerPianoDialogue();
+            if (interacted === "ghost") triggerMissingPictureDialogue();
         }
 
         loadInventory();

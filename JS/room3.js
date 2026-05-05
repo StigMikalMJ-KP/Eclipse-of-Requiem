@@ -56,13 +56,19 @@ window.ROOM_HITBOXES = {
 
 export function triggerFingerDialogue() {
     startDialogue([
-        "A sacred book...",
-        "It Looks almost Holy.",
-        "This must be important.",
+        "A Skeleton finger?...",
+        "Its quite cold.",
+        "Looks like the finger is from an old man",
         "Skeleton-Finger was added to your inventory."
     ], "character");
+}
 
-   
+export function triggerFingertinoPedestalDialogue() {
+    startDialogue([
+        "I place the finger on the pedestal...",
+        "The finger glows with an eerie light.",
+        "It seems as if im going to have a bad time",
+    ], "character");
 }
 
 
