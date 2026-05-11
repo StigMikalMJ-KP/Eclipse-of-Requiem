@@ -1,3 +1,4 @@
+import { getGameState_exp, setGameState } from "./states.js";
 let step = 1;
 const gameArea = document.getElementById("gameArea");
 
@@ -210,7 +211,10 @@ function generateStage3() {
             circle.addEventListener("click", (e) => {
                 e.stopPropagation();
                 alert("DU KLARTE ROOM 8!");
-                window.location.href = "room9.html";
+                let game = getGameState_exp();
+                game["doorfromtop"] = true;
+                setGameState(game);
+                window.location.href = "room2.html";
             });
         } else {
             // Dummy kuler

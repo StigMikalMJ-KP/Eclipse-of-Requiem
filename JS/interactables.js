@@ -30,7 +30,7 @@ const hitboxes = {
     },
 
     "holy-book2": {
-        x: 42, y: 27, width: 20, height: 53,
+        x: 42, y: 27, width: 20, height: 40,
         item_pickup: false, 
         required_item: "holy-book1", 
         switch_item: ["key", "scroll_purple"], 
@@ -138,6 +138,17 @@ const hitboxes = {
         toggle: false,
         width: 15,
         height: 20
+    },
+
+    "map": {
+        x: 37,
+        y: 75,
+        item_pickup: false,
+        required_item: "scroll_blue",
+        switch_item: false,
+        toggle: false,
+        width: 30,
+        height: 23
     }
 }
 

@@ -23,7 +23,7 @@ const MIRROR_ROOM_CONFIG = {
         {
             id: "teleporter-room1",
             x: 40, y: 85, width: 20, height: 15,
-            trigger: { type: "manual_teleport", room: "room1.html", spawn: { x: 99, y: 55 } }
+            trigger: { type: "manual_teleport", room: "room5.html", spawn: { x: 55, y: 20 } }
         },
         {
             id: "mirror-zone",
