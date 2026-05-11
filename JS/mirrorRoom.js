@@ -319,21 +319,30 @@ function leaveMirrorMode() {
 // ---- Scroll pickup ------------------------------------------
 
 function spawnScrollItem(stage) {
-    // Don't spawn if already collected in a previous session
-    if (localStorage.getItem(MIRROR_ROOM_CONFIG.storageKeyMine) === "true") {
+    const bothPicked = localStorage.getItem(MIRROR_ROOM_CONFIG.storageKeyMine) === 'true' && localStorage.getItem(MIRROR_ROOM_CONFIG.storageKeyOther) === 'true';
+
+    let src, item;
+    if (bothPicked) {
+        src = MIRROR_ROOM_CONFIG.scrollFullSrc;
+        item = MIRROR_ROOM_CONFIG.scrollFullItem;
+    } else if (localStorage.getItem(MIRROR_ROOM_CONFIG.storageKeyMine) !== 'true') {
+        src = MIRROR_ROOM_CONFIG.scrollHalfSrc;
+        item = MIRROR_ROOM_CONFIG.scrollHalfItem;
+    } else {
         scrollPickedUp = true;
         return;
     }
 
     scrollItemEl = document.createElement("img");
-    scrollItemEl.src = MIRROR_ROOM_CONFIG.scrollHalfSrc;
+    scrollItemEl.src = src;
+    scrollItemEl.dataset.item = item;
     Object.assign(scrollItemEl.style, {
         position:  "absolute",
-        left:      "50%",           // centered horizontally in the stage
-        top:       "40%",           // roughly mid-screen vertically
-        transform: "translateX(-50%)",
-        width:     "5%",            // scales with the stage width
-        display:   "none",          // only shown when inside mirror mode
+        left:      `${MIRROR_ROOM_CONFIG.scrollPosition.x}px`,
+        top:       `${MIRROR_ROOM_CONFIG.scrollPosition.y}px`,
+        width:     "50px",
+        height:     "50px",
+        display:   "none",
         zIndex:    "200",
         pointerEvents: "none"
     });
@@ -364,20 +373,27 @@ function checkScrollProximity() {
 
 function pickUpScroll() {
     scrollPickedUp = true;
-    localStorage.setItem(MIRROR_ROOM_CONFIG.storageKeyMine, "true");
     if (scrollItemEl) scrollItemEl.style.display = "none";
 
-    const otherAlreadyCollected = localStorage.getItem(MIRROR_ROOM_CONFIG.storageKeyOther) === "true";
-
-    if (otherAlreadyCollected) {
-        // Both halves are now collected — combine into the full scroll
-        window.removeFromInventory(MIRROR_ROOM_CONFIG.scrollOtherItem);
-        window.addToInventory(SCROLL_FULL);
-        if (window.startDialogue) window.startDialogue(MIRROR_ROOM_CONFIG.combineDialogue, "character");
+    const item = scrollItemEl.dataset.item;
+    if (item === MIRROR_ROOM_CONFIG.scrollFullItem) {
+        // Picking the full scroll
+        window.addToInventory(item);
+        if (window.startDialogue) window.startDialogue("You picked up the complete blue scroll.", "character");
     } else {
-        // Only have one half, add it and wait for the other
-        window.addToInventory(MIRROR_ROOM_CONFIG.scrollHalfItem);
-        if (window.startDialogue) window.startDialogue(MIRROR_ROOM_CONFIG.pickupDialogue, "character");
+        // Picking a half
+        localStorage.setItem(MIRROR_ROOM_CONFIG.storageKeyMine, "true");
+        const otherAlreadyCollected = localStorage.getItem(MIRROR_ROOM_CONFIG.storageKeyOther) === "true";
+        if (otherAlreadyCollected) {
+            // Both halves are now collected — combine into the full scroll
+            window.removeFromInventory(MIRROR_ROOM_CONFIG.scrollOtherItem);
+            window.addToInventory(SCROLL_FULL);
+            if (window.startDialogue) window.startDialogue("The two halves combine into a complete blue scroll!", "character");
+        } else {
+            // Only have one half, add it and wait for the other
+            window.addToInventory(item);
+            if (window.startDialogue) window.startDialogue("You picked up half of the blue scroll.", "character");
+        }
     }
 
     window.loadInventory();

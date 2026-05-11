@@ -8,6 +8,10 @@ const MIRROR_ROOM_CONFIG = {
     scrollHalfItem:  "scroll_blue_Half_First",
     scrollOtherItem: "scroll_blue_Half_Second",
 
+    // Full scroll when both halves are collected
+    scrollFullSrc:   "../Assets/ITEMS/scroll_blue.png",
+    scrollFullItem:  "scroll_blue",
+
     // localStorage keys to track collection across rooms
     storageKeyMine:  "requiem_scroll_first_picked",
     storageKeyOther: "requiem_scroll_second_picked",
