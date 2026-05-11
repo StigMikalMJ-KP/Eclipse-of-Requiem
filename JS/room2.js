@@ -121,6 +121,11 @@ export function triggerPedestalDialogue() {
 export function triggerPadDialogue() {
     if(isInInventory("scroll_blue")) {
         triggerPadYesDialogue();
+
+    // 60000ms = 1 minute
+    setTimeout(() => {
+    window.location.href = "room12.html";
+        }, 60000);
     } else {
         triggerPadNoDialogue();
     }
