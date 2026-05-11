@@ -1,9 +1,10 @@
 import { setGameState, getGameState_exp, loadAssets_exp } from "./states.js"
 import { addToInventory, loadInventory, isInInventory, removeFromInventory } from "./inventory.js"
 import { openRoom1Exit, triggerHolyBookDialogue } from "./room1.js"
-import { triggerPedestalDialogue } from "./room2.js"
+import { triggerPedestalDialogue, triggerPadDialogue } from "./room2.js"
 import { triggerFingerDialogue, triggerFingertinoPedestalDialogue } from "./room3.js"
 import { triggerPianoDialogue, triggerMissingPictureDialogue } from "./room4.js"
+
 
 document.addEventListener("DOMContentLoaded", loadInventory);
 document.addEventListener("DOMContentLoaded", createInteractableHitboxes);
@@ -140,7 +141,7 @@ const hitboxes = {
         height: 20
     },
 
-    "map": {
+    "mapend": {
         x: 37,
         y: 75,
         item_pickup: false,
@@ -292,6 +293,7 @@ function interactInput(e){
         } else if (hitboxData.required_item || hitboxData.switch_item) {
             if (interacted === "holy-book2") triggerPedestalDialogue();
             if (interacted === "fingertino") triggerFingertinoPedestalDialogue();
+            if (interacted === "mapend") triggerPadDialogue();
             gameState[interacted] = !gameState[interacted];
             removeFromInventory(hitboxData.required_item);
             
@@ -309,6 +311,7 @@ function interactInput(e){
         loadInventory();
     } else {
         if (interacted === "holy-book2") triggerPedestalDialogue();
+        if (interacted === "mapend") triggerPadDialogue();
     } 
 
     setGameState(gameState);

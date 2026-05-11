@@ -85,10 +85,43 @@ export function triggerPedestalYesDialogue() {
     ], "character");
 }
 
+export function triggerPadNoDialogue() {
+    startDialogue([
+        "This lock seems to have some sort of indentation on top.",
+        "It looks like something could fit in there.",
+    ], "character");
+}
+
+export function triggerPadYesDialogue() {
+    startDialogue([
+        "The scroll, it seems it could fit",
+        "I place the scroll on the lock.",
+        "Huh, thats weird it starts to glow",
+        "As you the blue scroll glows on the ground you realize",
+        "In this world, can i be myself? Can i be free?",
+        "Can i choose who i am? Or am i just a prisoner of fate, bound to this cycle of despair?",
+        "The scroll crumbles to dust, and a hidden compartment opens up.",
+        "Inside, I find a gun.",
+    ], "character");
+}
+
+
+
+
 export function triggerPedestalDialogue() {
     if(isInInventory("holy-book1")) {
         triggerPedestalYesDialogue();
     } else {
         triggerPedestalNoDialogue();
+    }
+}
+
+
+
+export function triggerPadDialogue() {
+    if(isInInventory("scroll_blue")) {
+        triggerPadYesDialogue();
+    } else {
+        triggerPadNoDialogue();
     }
 }
