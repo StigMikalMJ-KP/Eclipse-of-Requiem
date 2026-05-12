@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Set up button event listeners
     const restartBtn = document.getElementById("restart-btn");
     const titleBtn = document.getElementById("title-btn");
+    const elskespillBtn = document.getElementById("elskespill-btn");
     
     if(restartBtn){
         restartBtn.addEventListener("click", () => {
@@ -79,6 +80,14 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.removeItem(ROOMS_EXPLORED_KEY);
             localStorage.removeItem(START_TIME_KEY);
             window.location.href = "../index.html";
+        });
+    }
+
+    if(elskespillBtn){
+        elskespillBtn.addEventListener("click", () => {
+            localStorage.removeItem(ROOMS_EXPLORED_KEY);
+            localStorage.removeItem(START_TIME_KEY);
+            window.location.href = "./room.html"
         });
     }
 });
